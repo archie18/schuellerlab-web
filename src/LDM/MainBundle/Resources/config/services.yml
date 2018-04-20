@@ -2,31 +2,3 @@ services:
 #    main.example:
 #        class: MainBundle\Example
 #        arguments: ["@service_id", "plain_value", "%parameter%"]
-    semester_handler:
-        class: RockADev\Preu\MainBundle\Service\SemesterHandler
-        arguments: ["@doctrine",  %semesterDates%]
-    report_handler:
-        class: RockADev\Preu\MainBundle\Service\ReportHandler
-        arguments: ["@doctrine"]
-    student_handler:
-        class: RockADev\Preu\MainBundle\Service\StudentHandler
-        arguments: ["@doctrine.orm.entity_manager","@templating", "@semester_handler"]
-    event_handler:
-        class: RockADev\Preu\MainBundle\Service\EventHandler
-        arguments: ["@doctrine.orm.entity_manager","@templating"]
-    material_handler:
-        class: RockADev\Preu\MainBundle\Service\MaterialHandler
-        arguments: ["@doctrine.orm.entity_manager","@templating","@service_container","@form.factory"]
-    RockADev\Preu\MainBundle\Twig\MainExtension:
-        arguments: ["@semester_handler","@student_handler","@material_handler","@report_handler"]
-        tags:
-            - { name: twig.extension }
-    email.handler:
-        class:        RockADev\Preu\MainBundle\Service\EmailHandler
-        arguments:    [ "@doctrine.orm.entity_manager", "@service_container" ]
-
-    grade.validator:
-        class: RockADev\Preu\MainBundle\Validator\Constraint\GradeValidator
-        arguments:    [ ]
-        tags:
-            - { name: validator.constraint_validator, alias: grade_validator }
