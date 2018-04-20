@@ -1,23 +1,23 @@
 $(function() {
     $("span.pie").peity("pie", {
-        fill: ['#d7423e', '#d7d7d7', '#ffffff']
+        fill: ['#0e9aef', '#d7d7d7', '#ffffff']
     })
 
     $(".line").peity("line",{
-        fill: '#d7423e',
+        fill: '#0e9aef',
         stroke:'#169c81',
     })
 
     $(".bar").peity("bar", {
-        fill: ["#d7423e", "#d7d7d7"]
+        fill: ["#0e9aef", "#d7d7d7"]
     })
 
     $(".bar_dashboard").peity("bar", {
-        fill: ["#d7423e", "#d7d7d7"],
+        fill: ["#0e9aef", "#d7d7d7"],
         width:100
     })
 
-    var updatingChart = $(".updating-chart").peity("line", { fill: '#d7423e',stroke:'#169c81', width: 64 })
+    var updatingChart = $(".updating-chart").peity("line", { fill: '#0e9aef',stroke:'#169c81', width: 64 })
 
     setInterval(function() {
         var random = Math.round(Math.random() * 10)
