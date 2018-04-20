@@ -1,0 +1,44 @@
+<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="sidebar-collapse">
+        <ul class="nav metismenu" id="side-menu">
+            <li class="nav-header">
+                <div class="dropdown profile-element">
+                    {#<span>#}
+                        {#<img alt="image" class="img-circle" src="img/profile_small.jpg" />#}
+                    {#</span>#}
+                    {#<a data-toggle="dropdown" class="dropdown-toggle" href="#">#}
+                            <span class="clear">
+                                <span class="block m-t-xs white-text">Hola,  <strong class="font-bold">
+                                        {% if app.user and app.user.person %}{{ app.user.person.shortName}}{% elseif app.user %}{{ app.user.username }}{% else %}Anónimo{% endif %}
+                                    </strong>
+                                </span>
+                                <span class="m-t-xs white-text">
+
+                                </span>
+                                {#<span class="text-muted text-xs block">{% if app.user and app.user.person %}{{ app.user.person.personType.name}}{% elseif app.user %}Usuario{% else %}Anónimo{% endif %} <b class="caret"></b></span> #}
+                            </span>
+                    {#</a>#}
+                    {#<ul class="dropdown-menu animated fadeInRight m-t-xs">#}
+                        {#<li><a href="profile.html">Profile</a></li>#}
+                        {#<li><a href="contacts.html">Contacts</a></li>#}
+                        {#<li><a href="mailbox.html">Mailbox</a></li>#}
+                        {#<li class="divider"></li>#}
+                        {#<li><a href="login.html">Logout</a></li>#}
+                    {#</ul>#}
+
+
+                </div>
+                <div class="logo-element">
+                    IN+
+                </div>
+            </li>
+            <li class="{% block section_active %}{% endblock %}">
+                <a href="{{ path('ldm_home') }}"><i class="fa fa-vcard-o"></i> <span class="nav-label">Home</span></a>
+                <a href="{{ path('ldm_workshop042018') }}"><i class="fa fa-vcard-o"></i> <span class="nav-label">Worshop</span></a>
+                <a href="{{ path('ldm_members') }}"><i class="fa fa-vcard-o"></i> <span class="nav-label">Miembros</span></a>
+                <a href="{{ path('ldm_contact') }}"><i class="fa fa-vcard-o"></i> <span class="nav-label">Contacto</span></a>
+                <hr style="width:100%;margin: 0px 15px 0px 0px;color: #959595"/>
+            </li>
+        </ul>
+    </div>
+</nav>

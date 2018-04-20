@@ -1,0 +1,24 @@
+{% for flashMessage in app.session.flashbag.get('success') %}
+    <p class="alert alert-success">
+        <button type="button" class="close close-flash-message" aria-label="Close" onclick="$(this).parent().hide()"><span aria-hidden="true">&times;</span></button>
+        {{ flashMessage }}
+    </p>
+{% endfor %}
+{% for flashMessage in app.session.flashbag.get('notice') %}
+    <p class="alert alert-success">
+        <button type="button" class="close close-flash-message" aria-label="Close" onclick="$(this).parent().hide()"><span aria-hidden="true">&times;</span></button>
+        {{ flashMessage }}
+    </p>
+{% endfor %}
+{% for flashMessage in app.session.flashbag.get('error-notice') %}
+    <p class="alert alert-danger">
+        <button type="button" class="close close-flash-message" aria-label="Close" onclick="$(this).parent().hide()"><span aria-hidden="true">&times;</span></button>
+        {{ flashMessage }}
+    </p>
+{% endfor %}
+{% for flashMessage in app.session.flashbag.get('warning') %}
+    <p class="alert alert-warning">
+        <button type="button" class="close close-flash-message" aria-label="Close" onclick="$(this).parent().hide()"><span aria-hidden="true">&times;</span></button>
+        {{ flashMessage }}
+    </p>
+{% endfor %}
