@@ -40,7 +40,37 @@ class DefaultController extends Controller
     {
 
         return array(
-            'text' => "Hola mundo"
+            'members' => array(
+                array(
+                    'name' => 'Andreas Schueller',
+                    'title' => 'Boss',
+                    'description' => 'LALA',
+                    'picture' => 'andreas2.png',
+                    'contact' => 'aschueller@bio.puc.cl'
+                ),
+                array(
+                    'name' => 'Jorge Cares',
+                    'title' => 'Ingeniero en Bioinformática',
+                    'description' => 'LALA',
+                    'picture' => 'jorge.JPG',
+                    'contact' => 'aschuller@bio.puc.cl'
+                ),
+                array(
+                    'name' => 'Daniela Herrera',
+                    'title' => 'Alumna doctorado',
+                    'description' => 'LALA',
+                    'picture' => 'dani.jpeg',
+                    'contact' => 'aschuller@bio.puc.cl'
+                ),
+                array(
+                    'name' => 'Mauricio Herrera',
+                    'title' => 'Ingeniero en Bioinformática',
+                    'description' => 'LALA',
+                    'picture' => 'mauricio.jpeg',
+                    'contact' => 'ruiz.moraga.90@gmail.com'
+                ),
+
+            )
         );
     }
 
