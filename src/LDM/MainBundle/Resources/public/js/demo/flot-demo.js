@@ -18,7 +18,7 @@ $(function() {
         xaxis: {
             tickDecimals: 0
         },
-        colors: ["#d7423e"],
+        colors: ["#0e9aef"],
         grid: {
             color: "#999999",
             hoverable: true,
@@ -68,7 +68,7 @@ $(function() {
         xaxis: {
             tickDecimals: 0
         },
-        colors: ["#d7423e"],
+        colors: ["#0e9aef"],
         grid: {
             color: "#999999",
             hoverable: true,
@@ -116,7 +116,7 @@ $(function() {
     }, {
         label: "Sales 4",
         data: 52,
-        color: "#d7423e",
+        color: "#0e9aef",
     }];
 
     var plotObj = $.plot($("#flot-pie-chart"), data, {
@@ -215,7 +215,7 @@ $(function() {
                 return markings;
             }
         },
-        colors: ["#d7423e"],
+        colors: ["#0e9aef"],
         xaxis: {
             tickFormatter: function() {
                 return "";
@@ -273,7 +273,7 @@ $(function() {
             legend: {
                 position: 'sw'
             },
-            colors: ["#d7423e"],
+            colors: ["#0e9aef"],
             grid: {
                 color: "#999999",
                 hoverable: true,
