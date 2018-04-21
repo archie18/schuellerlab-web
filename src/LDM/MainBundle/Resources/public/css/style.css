@@ -3608,6 +3608,7 @@ body.body-small .footer.fixed {
 .page-heading {
   border-top: 0;
   padding: 0 10px 20px 10px;
+  height: 90px;
 }
 .panel-heading h1,
 .panel-heading h2 {
@@ -7978,7 +7979,7 @@ body.md-skin {
   background-color: #ffffff;
 }
 .md-skin .nav-header {
-  background: url("patterns/header-profile-skin-1.png") no-repeat;
+  background: url("patterns/header-profile-skin-1-mol3.png") no-repeat;
 }
 .md-skin .label,
 .md-skin .badge {
