@@ -1,0 +1,5 @@
+COc1ccc2[nH]c(nc2c1)[S+]([O-])Cc3ncc(C)c(OC)c3C	mol1
+Clc1ccc(s1)C(=O)NC[C@H]2CN(C(=O)O2)c3ccc(cc3)N4CCOCC4=O	mol2
+CC(=O)Nc1ccc(O)cc1	mol3
+CC1(C)S[C@@H]2[C@H](NC(=O)[C@H](N)c3ccc(O)cc3)C(=O)N2[C@H]1C(=O)O	mol4
+CCC(CC)O[C@@H]1C=C(C[C@H](N)[C@H]1NC(=O)C)C(=O)O	mol5
