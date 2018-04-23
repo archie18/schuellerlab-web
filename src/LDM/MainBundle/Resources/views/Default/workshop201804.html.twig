@@ -4,11 +4,11 @@
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-12">
             <h2>
-                <span class="text-navy">Inicio</span>
+                <span class="text-navy">Workshop 3<sup>rd</sup> PBATEOTW-2018</span>
             </h2>
             <ol class="breadcrumb">
                 <li class="active">
-                    <a target="_blank" href="{{ path('ldm_home') }}">Home</a>
+                    <a target="_blank" href="{{ path('ldm_workshop201804') }}">Workshop</a>
                 </li>
             </ol>
         </div>
@@ -25,10 +25,17 @@
                     <div class="text-center article-title">
                         <span class="text-navy"><h1>Cheminformatics - An introduction to computer-aided drug discovery</h1></span>
                     </div>
-                    <img src="{{ asset("bundles/ldmmain/img/drugs.png") }}" width="95%">
+                    <img src="{{ asset("bundles/ldmmain/img/drugs.png") }}" width="95%" style="margin-left:2%">
                     {#<h1>Cheminformatics - An introduction to computer-aided drug discovery</h1>#}
-                    <p>This is an introduction of cheminformatics computer-aided drug discovery, based on usage of Bioinformatics tools in order to create in silico background for ligand-protein study interested people.</p>
+                    <p class="text-justify">The objective of this workshop is the simulation of a drug discovery effort of inhibitors of the serine protease Factor Xa – an important drug target for antithrombotic therapy. You will be given five drug-like compounds and it will be your task to identify the most likely candidate compound to inhibit the enzymatic activity of Factor Xa. We will employ the structure-based design method of “molecular docking” and the ligand-based method “chemical similarity search” to achieve this task.</p>
                     <br/>
+                    <h2>Instructions</h2>
+                    <div class="row well well-md">
+                        <ul>
+                            <li><a target="_blank" href="{{ asset('bundles/ldmmain/data/PBATEOTW2018_Cheminformatics_Workshop.pdf') }}">Pdf handout</a></li>
+                            <li><a target="_blank" href="{{ asset('bundles/ldmmain/data/ligands.smi') }}">ligands.smi</a></li>
+                        </ul>
+                    </div>
                     <h2>Software to be installed</h2>
                     <div class="row well well-md">
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">

@@ -21,10 +21,10 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/workshop04218", name="ldm_workshop042018")
-     * @Template("@LDMMain/Default/workshop042018.html.twig")
+     * @Route("/workshop201804", name="ldm_workshop201804")
+     * @Template()
      */
-    public function workshop042018Action()
+    public function workshop201804Action()
     {
 
         return array(
