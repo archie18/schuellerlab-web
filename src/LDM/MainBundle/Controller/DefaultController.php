@@ -43,47 +43,52 @@ class DefaultController extends Controller
             'members' => array(
                 array(
                     'name' => 'Andreas Schueller',
-                    'title' => 'Dr. phil. nat. Assistance Professor',
+                    'title' => 'Assistant Professor',
                     'description' => 'Group Leader',
                     'picture' => 'andreas2.png',
                     'contact' => 'aschueller@bio.puc.cl'
                 ),
-                array(
-                    'name' => 'Jorge Cares',
-                    'title' => 'Bioinformatic engineer',
-                    'description' => 'LALA',
-                    'picture' => 'jorge.JPG',
-                    'contact' => 'aschuller@bio.puc.cl'
-                ),
+//                array(
+//                    'name' => 'Jorge Cares',
+//                    'title' => 'Bioinformatic engineer',
+//                    'description' => 'Software Developer',
+//                    'picture' => 'jorge.JPG',
+//                    'contact' => 'aschuller@bio.puc.cl'
+//                ),
+//                array(
+//                    'name' => 'Felipe Rodríguez',
+//                    'title' => 'Bioinformatic engineer',
+//                    'description' => 'Software Developer',
+//                    'picture' => 'jorge.JPG',
+//                    'contact' => 'aschuller@bio.puc.cl'
+//                ),
                 array(
                     'name' => 'Daniela Herrera',
                     'title' => 'PhDc Engineering sciences',
-                    'description' => 'Thesis proyect: "Protein engineering of resveratrol O-methyltransferase for the production of stilbenes"
-Comparative protein structure modeling. Molecular docking.
-Molecular dynamics simulations.',
+                    'description' => 'PhD Thesis: "Protein engineering of resveratrol O-methyltransferase for the production of stilbenes"<br />Comparative protein structure modeling. Molecular docking. Molecular dynamics simulations.',
                     'picture' => 'dani.jpeg',
                     'contact' => 'dpherrer@uc.cl'
                 ),
                 array(
-                    'name' => 'Mauricio Herrera',
+                    'name' => 'Mauricio Ruiz',
                     'title' => 'Bioinformatic engineer',
-                    'description' => 'LALA',
+                    'description' => 'Lab Manager<br/>Project: "In silico target prediction based on small molecules chemical similarity."',
                     'picture' => 'mauricio.jpeg',
                     'contact' => 'ruiz.moraga.90@gmail.com'
                 ),
                 array(
-                    'name' => 'Carlos Vigil Vásquez',
-                    'title' => 'Biochemistry undergraduate student',
-                    'description' => 'Currently work on "In silico prediction and prioritization of new biological target for drugs"',
-                    'picture' => 'carlos2.png',
-                    'contact' => 'cvigil2@uc.cl'
-                ),
-                array(
                     'name' => 'Claudio Ponce Acosta',
                     'title' => 'Biochemistry undergraduate student',
-                    'description' => 'Working on: My thesis titled "Detection of protein-ligand binding site residues by a physicochemical and spatial uniqueness approach"',
+                    'description' => 'Undergraduate Thesis: "Detection of protein-ligand binding site residues by a physicochemical and spatial uniqueness approach"',
                     'picture' => 'claudio2.png',
                     'contact' => 'caponce@uc.cl'
+                ),
+                array(
+                    'name' => 'Carlos Vigil Vásquez',
+                    'title' => 'Biochemistry undergraduate student',
+                    'description' => 'Project: "In silico prediction and prioritization of new biological target for drugs"',
+                    'picture' => 'carlos2.png',
+                    'contact' => 'cvigil2@uc.cl'
                 ),
 
             )
