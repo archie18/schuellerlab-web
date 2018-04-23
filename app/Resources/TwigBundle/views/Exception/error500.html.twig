@@ -1,0 +1,6 @@
+{% extends 'MeloLabPostgradoMainBundle::base.html.twig' %}
+{% block main %}
+    <h1>¡Ha Ocurrido un Error!</h1>
+    <p>El servidor retornó "{{ status_code }} {{ status_text }}".</p>
+    <p>Por favor contactarse a la brevedad con el e-mail: <a href="mailto:postgrado@bio.puc.cl">postgrado@bio.puc.cl</a> para buscar asistencia.</p>
+{% endblock%}

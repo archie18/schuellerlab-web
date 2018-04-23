@@ -1,0 +1,7 @@
+{% extends 'MeloLabPostgradoMainBundle::base.html.twig' %}
+{% block main %}
+    <h1>{{ status_code }} {{ status_text }}</h1>
+    <p>El acceso a esta página web sólo está permitido a través de su respectivo formulario web.</p>
+    <p>Por favor volver a su <a href="javascript:history.back()">última página web visitada</a>
+        o a la <a href="{{ path('pg_home') }}">página de inicio</a>.</p>
+{% endblock%}

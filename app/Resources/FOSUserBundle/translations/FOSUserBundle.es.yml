@@ -1,0 +1,101 @@
+# Group
+group:
+    edit:
+        submit: Actualizar grupo
+    show:
+        name: Nombre de grupo
+    new:
+        submit: Crear grupo
+    flash:
+        updated: El grupo ha sido actualizado
+        created: El grupo ha sido creado
+        deleted: El grupo ha sido borrado
+
+# Security
+"Bad credentials": Nombre de usuario o contraseña inválido
+"Bad credentials.": Nombre de usuario o contraseña inválido
+"User account is disabled.": La cuenta se encuentra deshabilitada
+"User account is locked.": La cuenta se encuentra bloqueada
+"User account has expired.": La cuenta ha expirado
+"Your session has timed out, or you have disabled cookies.": La sesión ha expirado
+
+security:
+    login:
+        username: "Nombre de Usuario o Correo Electrónico:"
+        password: "Contraseña:"
+        remember_me: Recordar
+        submit: Entrar
+
+# Profile
+profile:
+    show:
+        username: <b>Nombre de usuario</b>
+        email: <b>Correo electrónico</b>
+    edit:
+        submit: Actualizar usuario
+    flash:
+        updated: El perfil ha sido actualizado
+
+# Password change
+change_password:
+    submit: Cambiar contraseña
+    flash:
+        success: La contraseña se ha reestablecido con éxito
+
+# Registration
+registration:
+    check_email: <b>Se ha enviado un correo electrónico a %email%. El correo contiene un enlace de activación que debe presionar para activar su cuenta.</b> En caso de no recibir dicho e-mail, por favor verificar que éste no se encuentre en la "Bandeja de Correos No Deseados (Spam)" de su sistema de correos. Si ya se ha revisado la Bandeja de Spam y el e-mail no se encuentra, será necesario contactarse con la Dirección de Postgrado.
+    confirmed: Estimado/a %username%, su cuenta de registro ha sido confirmada.
+    back: Volver a la página original.
+    submit: Registrar
+    flash:
+        user_created: Ha completado el primer paso del registro. 
+    email:
+        subject: Bienvenido %username%!
+        message: |
+            Estimado/a %username%!
+
+            Para completar la validación de su cuenta - por favor visite %confirmationUrl%
+
+            Atentamente,
+            Dirección de Postgrado
+
+# Password resetting
+resetting:
+    password_already_requested: La contraseña para este usuario ya ha sido solicitada dentro de las 24 horas.
+    check_email: <b>Un correo electrónico ha sido enviado a %email%. El correo contiene un enlace de activación que debe presionar para restablecer su contraseña.</b> En caso de no recibir dicho e-mail, por favor verificar que éste no se encuentre en la "Bandeja de Correos No Deseados (Spam)" de su sistema de correos. Si ya se ha revisado la Bandeja de Spam y el e-mail no se encuentra, será necesario contactarse con la Dirección de Postgrado.
+    request:
+        invalid_username: El usuario o dirección de correo "%username%" no existe
+        username: "Nombre de Usuario o Correo Electrónico:"
+        submit: Restablecer contraseña
+    reset:
+        submit: Cambiar contraseña
+    flash:
+        success: La contraseña se ha cambiado con éxito
+    email:
+        subject: Bienvenido/a %username%!
+        message : |
+            Estimado/a %username%!
+
+            Para restablecer su contraseña - por favor visite %confirmationUrl%
+
+            Atentamente,
+            Dirección de Postgrado
+
+# Global strings
+layout:
+    logout: Salir
+    login: Entrar
+    register: Registrar
+    logged_in_as: Identificado como %username%
+
+# Form field labels
+form:
+    group_name: "Nombre de Grupo:"
+    username: "Nombre de Usuario:"
+    email: "Email:"
+    current_password: "Contraseña actual:"
+    password: "Contraseña:"
+    password_confirmation: "Repita la Contraseña:"
+    new_password: "Nueva Contraseña:"
+    new_password_confirmation: "Repita la Contraseña:"

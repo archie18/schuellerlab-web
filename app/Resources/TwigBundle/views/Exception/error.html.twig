@@ -1,0 +1,8 @@
+{% extends 'MeloLabPostgradoMainBundle::base.html.twig' %}
+{% block main %}
+    <h1>{{ status_code }} {{ status_text }}</h1>
+    <p>Nuestras disculpas, ha sucedido un error inesperado.</p>
+    <p>Por favor contáctese con el e-mail: <a href="mailto:postgrado@bio.puc.cl">postgrado@bio.puc.cl</a> para buscar ayuda acerca de este error.</p>
+    <p>Por favor volver a su <a href="javascript:history.back()">última página web visitada</a>
+        o a la <a href="{{ path('pg_home') }}">página de inicio</a>.</p>
+{% endblock%}

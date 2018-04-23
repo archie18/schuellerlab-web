@@ -1,0 +1,7 @@
+{% extends 'MeloLabPostgradoMainBundle::base.html.twig' %}
+{% block main %}
+    <h1>¡Ha Ocurrido un Error!</h1>
+    <p>El servidor retornó "{{ status_code }} {{ status_text }}".</p>
+    <p>Usted no tiene los permisos para acceder a esta página web.<br/>
+        Si usted siente que esto es un error, por favor proceda a contactarse con el e-mail: <a href="mailto:postgrado@bio.puc.cl">postgrado@bio.puc.cl</a>.</p>
+{% endblock%}

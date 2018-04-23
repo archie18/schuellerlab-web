@@ -1,0 +1,27 @@
+fos_user:
+    username:
+        already_used: El nombre de usuario ya está en uso
+        blank: Por favor, ingrese un nombre de usuario
+        short: "[-Inf,Inf]Largo mínimo {{ limit }} caracteres"
+        long: "[-Inf,Inf]Largo máximo {{ limit }} caracteres"
+    email:
+        already_used: La dirección de correo ya está en uso
+        blank: Por favor, ingrese una dirección de correo
+        short: "[-Inf,Inf]Largo mínimo {{ limit }} caracteres"
+        long: "[-Inf,Inf]Largo máximo {{ limit }} caracteres"
+        invalid: La dirección de correo no es válida
+    password:
+        blank: Por favor, ingrese una contraseña
+        short: "[-Inf,Inf]Largo mínimo {{ limit }} caracteres"
+        long: "[-Inf,Inf]Largo máximo {{ limit }} caracteres"
+        mismatch: Las contraseñas deben coindicir
+    new_password:
+        blank: Por favor, ingrese una nueva contraseña
+        short: "[-Inf,Inf]Largo mínimo {{ limit }} caracteres"
+        long: "[-Inf,Inf]Largo máximo {{ limit }} caracteres"
+    current_password:
+        invalid: La contraseña ingresada no es válida
+    group:
+        blank: Por favor, ingrese un nombre
+        short: "[-Inf,Inf]Largo mínimo {{ limit }} caracteres"
+        long: "[-Inf,Inf]Largo máximo {{ limit }} caracteres"

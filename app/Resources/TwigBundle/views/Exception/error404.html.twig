@@ -1,0 +1,11 @@
+{% extends 'MeloLabPostgradoMainBundle::base.html.twig' %}
+{% block main %}
+    {% if exception.message and exception.message == 'file.entity_not_found'|trans %}
+        <h1>{{ exception.message }}</h1>
+    {% else %}
+        <h1>Página web no encontrada</h1>
+    {% endif %}
+    <p>El servidor retornó "{{ status_code }} {{ status_text }}".</p>
+    <p>Por favor volver a su <a href="javascript:history.back()">última página web visitada</a>
+        o a la <a href="{{ path('pg_home') }}">página de inicio</a>.</p>
+{% endblock%}
