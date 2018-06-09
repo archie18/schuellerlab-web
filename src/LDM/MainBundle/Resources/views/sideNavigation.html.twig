@@ -31,10 +31,32 @@
                     IN+
                 </div>
             </li>
-            <li class="{% block section_active %}{% endblock %}">
+            <li>
                 <a href="{{ path('ldm_home') }}"><i class="fa fa-home"></i> <span class="nav-label">Home</span></a>
+            </li>
+            <li>
                 <a href="{{ path('ldm_workshop201804') }}"><i class="fa fa-wrench"></i> <span class="nav-label">Workshop</span></a>
+            </li>
+            <li>
                 <a href="{{ path('ldm_members') }}"><i class="fa fa-users"></i> <span class="nav-label">Lab Members</span></a>
+            </li>
+            <li class="nav-divider">
+            </li>
+            <li>
+                <a href="{{ path('ldm_dr_sasa') }}" onclick="javascript:window.location = '{{ path('ldm_dr_sasa') }}';"><i class="fa fa-laptop"></i> <span class="nav-label">dr_sasa</span></a>
+                {#<a href="#"><i class="fa fa-sitemap"></i> <span class="nav-label">Menu Levels </span><span class="fa arrow"></span></a>#}
+                <ul class="nav nav-second-level collapse in" style="">
+                    <li>
+                        <a href="{{ path('ldm_dr_sasa') }}">Web server</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('ldm_dr_sasa_download') }}">Download</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-divider">
+            </li>
+            <li>
                 <a href="{{ path('ldm_contact') }}"><i class="fa fa-envelope"></i> <span class="nav-label">Contact</span></a>
                 <hr style="width:100%;margin: 0px 15px 0px 0px;color: #959595"/>
             </li>

@@ -7,8 +7,11 @@
                 <span class="text-navy">Laboratory of Molecular Design</span>
             </h2>
             <ol class="breadcrumb">
+                <li>
+                    <a href="{{ path('ldm_dr_sasa') }}">dr_sasa</a>
+                </li>
                 <li class="active">
-                    <a href="{{ path('ldm_home') }}">dr_sasa</a>
+                    <a href="{{ path('ldm_dr_sasa_results', {'token': token}) }}">Results</a>
                 </li>
             </ol>
         </div>
@@ -24,20 +27,34 @@
                 <div class="ibox-content text-left p-lg">
                     <div class="text-center article-title" style="margin-bottom:50px;">
                         <span class="text-center text-navy">
-                            <h1><i>dr_sasa</i></h1>
+                            <h1><i>dr_sasa</i> - Results</h1>
                         </span>
                     </div>
-                    <img src="{{ asset("bundles/ldmmain/img/dr_sasa_logo.png") }}" width="70%" style="margin-left:15%">
-                    <br/>
-                    <br/>
-                    {{ form_start(form) }}
-                    {{ form_errors(form) }}
+                    <p>Your results will be kept available for one week.</p>
+                    {#Uploaded file: <a href="{{ asset('dr_sasa/' ~ tmpDir ~ '/' ~ moleculeName) }}">{{ moleculeName }}</a>#}
+                    Results: <a href="{{ asset('dr_sasa/' ~ token ~ '/' ~ zipFileName) }}">{{ zipFileName }}</a>
 
-                    PDB or Mol2 format
-                    {{ form_row(form.molecule) }}
-                    {{ form_row(form.submit) }}
-                    {{ form_end(form) }}
+                    <div class="m-t">
+                        <strong>Command line</strong>
+                    </div>
+                    <pre style="font-size: 0.8em">{{ commandLine }}</pre>
+
+                    <div class="m-t">
+                        <strong>Output</strong>
+                    </div>
+                    <pre style="font-size: 0.8em">{{ output }}</pre>
+
+                    <div class="m-t">
+                        <strong>Errors/warnings</strong>
+                    </div>
+                    <pre style="font-size: 0.8em; max-height: 10em;">{{ errorOutput }}</pre>
+
                 </div>
+                <div class="ibox-content text-left p-lg">
+                    <h3>How to cite</h3>
+                    <p>J. Ribeiro, C. Ríos-Vera, F. Melo, and A. Schüller (2018), Calculation of accurate contact surface areas between atoms for the quantitative analysis of non-bonded mo-lecular interactions. <i>Manuscript in preparation</i>.</p>
+                </div>
+
             </div>
         </div>
     </div>

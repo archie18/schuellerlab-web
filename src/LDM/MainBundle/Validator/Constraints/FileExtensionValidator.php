@@ -1,8 +1,7 @@
 <?php
 
-namespace MeloLab\BioGestion\ResearchBundle\Validator\Constraints;
+namespace LDM\MainBundle\Validator\Constraints;
 
-use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
@@ -12,31 +11,15 @@ use Symfony\Component\Validator\ConstraintValidator;
  * 
  * @author Andreas Schueller <aschueller@bio.puc.cl>
  */
-class UniqueGrantValidator extends ConstraintValidator {
+class FileExtensionValidator extends ConstraintValidator {
 
-    /**
-     * Doctrine registry
-     */
-    protected $doctrine;
-
-    public function __construct(Registry $doctrine) {
-        $this->doctrine = $doctrine;
-    }
-            
-    public function validate($data, Constraint $constraint) {
-        if (!$data or !($data instanceof \MeloLab\BioGestion\ResearchBundle\Entity\Grant)) {
-            return;
-        }
-        
-        // Check whether this grant already exists (it should not)
-        if (in_array('Unique', $constraint->groups)) {
-            if ($data->getProjectId() and $data->getType()) {
-                $employee = null;
-                $count = count($this->doctrine->getRepository('MeloLabBioGestionResearchBundle:Grant')->findSameGrant($data, $employee));
-                if ($count > 0) {
-                    $this->context->addViolation($constraint->grantAlreadyExists);
-                }
-            }
+    public function validate($value, Constraint $constraint) {
+        $ext = '.'.$value->getClientOriginalExtension();
+        if (!in_array($ext, $constraint->allowedExtensions)) {
+            $this->context->buildViolation($constraint->message)
+                ->setParameter('{{ extension }}', $ext)
+                ->setParameter('{{ allowed_ext }}', '"'.implode('", "', $constraint->allowedExtensions).'"')
+                ->addViolation();
         }
     }
 }

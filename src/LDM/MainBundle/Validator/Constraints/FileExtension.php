@@ -1,32 +1,44 @@
 <?php
 
-namespace MeloLab\BioGestion\ResearchBundle\Validator\Constraints;
+namespace LDM\MainBundle\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 
 /**
- * A class-scope constraint for Grant entities.
+ * A property-scope constraint to ensure certain file extensions of uploaded files.
  * 
  * @author Andreas Schueller <aschueller@bio.puc.cl>
  * @Annotation
  */
-class UniqueGrant extends Constraint
+class FileExtension extends Constraint
 {   
     /**
-     * "This grant was already found in the database" message
+     * Error message
      * @var string
      */
-    public $grantAlreadyExists = 'grant.validator.grant_already_exists';
-    
+    public $message = 'The file extension "{{ extension }}" is invalid. Allowed file extensions are {{ allowed_ext }}.';
+
+    /**
+     * Allowed extensions, e.g. array('.pdb', '.ent', '.mol2')
+     * @var array
+     */
+    public $allowedExtensions;
+
     public function __construct($options = null) {
+        $this->allowedExtensions = $options['allowedExtensions'];
         parent::__construct($options);
     }
-    
+
+    public function getRequiredOptions()
+    {
+        return array('allowedExtensions');
+    }
+
     /**
      * Provide the class scope of the validator.  
      */
     public function getTargets() {
-        return self::CLASS_CONSTRAINT;
+        return self::PROPERTY_CONSTRAINT;
     }
     
     /**
@@ -34,6 +46,7 @@ class UniqueGrant extends Constraint
      * @return string
      */
     public function validatedBy() {
-        return 'unique_grant_validator';
+        return get_class($this).'Validator';
+//        return 'file_extension_validator';
     }
 }
