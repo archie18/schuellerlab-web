@@ -1,0 +1,80 @@
+{% extends "@LDMMain/baseUser.html.twig" %}
+
+{% block main_header %}
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-12">
+            <h2>
+                <span class="text-navy">Laboratory of Molecular Design</span>
+            </h2>
+            <ol class="breadcrumb">
+                <li class="active">
+                    <a href="{{ path('ldm_dr_sasa') }}">dr_sasa</a>
+                </li>
+            </ol>
+        </div>
+    </div>
+{% endblock %}
+
+{% block wrapper_class %}article{% endblock %}
+
+{% block main_content %}
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <div class="ibox float-e-margins m-t-xl">
+                <div class="ibox-content text-left p-lg">
+                    <div class="text-center article-title" style="margin-bottom:50px;">
+                        <span class="text-center text-navy">
+                            <h1><i>dr_sasa</i></h1>
+                        </span>
+                    </div>
+                    <img src="{{ asset("bundles/ldmmain/img/dr_sasa_logo.png") }}" width="70%" style="margin-left:15%">
+                    <br/>
+                    <br/>
+                    {#<div class="col-sm-12 b-r">#}
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5><b>Run <i>dr_sasa</i></b></h5>
+                        </div>
+                        <div class="ibox-content">
+                            <p>Upload a structure in PDB or Mol2 format.</p>
+                            {#<form role="form">#}
+                                {#<div class="form-group"><label>Structure file</label> <input placeholder="Enter email" class="form-control" type="email"></div>#}
+                                {#<div class="form-group"><label>Password</label> <input placeholder="Password" class="form-control" type="password"></div>#}
+                                {#<div>#}
+                                    {#<button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit"><strong>Log in</strong></button>#}
+                                    {#<label> <div class="icheckbox_square-green" style="position: relative;"><input class="i-checks" style="position: absolute; opacity: 0;" type="checkbox"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div> Remember me </label>#}
+                                {#</div>#}
+                            {#</form>#}
+
+
+                            {{ form_start(form) }}
+                            {{ form_errors(form) }}
+
+                            {{ form_row(form.molecule) }}
+                            {#<div class="fileinput fileinput-new input-group" data-provides="fileinput">#}
+                                {#<div class="form-control" data-trigger="fileinput">#}
+                                    {#<i class="glyphicon glyphicon-file fileinput-exists"></i>#}
+                                    {#<span class="fileinput-filename"></span>#}
+                                {#</div>#}
+                                {#<span class="input-group-addon btn btn-default btn-file">#}
+                                {#<span class="fileinput-new">Select file</span>#}
+                                {#<span class="fileinput-exists">Change</span>#}
+                                    {#{{ form_widget(form.molecule) }}#}
+                                    {#<input type="file" name="..."/>#}
+                                {#</span>#}
+                                {#<a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>#}
+                            {#</div>#}
+                            {{ form_row(form.mode) }}
+                            {#<div class="text-center">#}
+                            {{ form_row(form.submit, { 'attr': {'class': 'btn btn-primary', 'style': 'width: 100%;' } }) }}
+                            {#</div>#}
+                            {{ form_end(form) }}
+                        {#</div>#}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "@LDMMain/baseUser.html.twig" %}
+
+{% block main_header %}
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-12">
+            <h2>
+                <span class="text-navy">Laboratory of Molecular Design</span>
+            </h2>
+            <ol class="breadcrumb">
+                <li class="active">
+                    <a href="{{ path('ldm_home') }}">Home</a>
+                </li>
+            </ol>
+        </div>
+    </div>
+{% endblock %}
+
+{% block wrapper_class %}article{% endblock %}
+
+{% block main_content %}
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <div class="ibox float-e-margins m-t-xl">
+                <div class="ibox-content text-left p-lg">
+                    <div class="text-center article-title" style="margin-bottom:50px;">
+                        <span class="text-center text-navy">
+                            <h1>Laboratory of Molecular Design</h1>
+                        </span>
+                    </div>
+                    <img src="{{ asset("bundles/ldmmain/img/ebola.png") }}" width="70%" style="margin-left:15%">
+                    <br/>
+                    <br/>
+                    <p class="text-justify">Specific interaction of small molecules with macromolecules is a fundamental phenomenon of all biological processes, from gene regulation to the fight against diseases. Our main motivation in the Laboratory of Molecular Design is to decipher the molecular code of protein-ligand interactions at an atomic level. Our group is at home in the areas of bioinformatics and cheminformatics, where we develop new computational methods for the prediction of molecular binding events. Our main research interest focuses on the area of ​​computational chemogenomics, which is an interdisciplinary research field that aims to predict ligand-protein interactions at the genome level with help of in silico approaches. The identification of the target profile of small, drug-like molecules is important for the discovery of new drugs, to flag off-targets, for the identification of new targets for known drugs (repositioning / drug repurposing) and to deorphanize ligands without known targets and receptors without known ligands. The identification of targets is also a crucial step in chemical biology for the follow-up of compounds resulting from phenotypic screenings. Our approaches are based on the exploitation of information available in large biological and chemical databases, as well as on methods comparing the three-dimensional structure of proteins. In addition, in serveral collaborative research projects we work on the computer-aided drug design of dual-activity antithrombotic agents against coagulation factor Xa and platelet aggregation, on the analysis and prediction of protein-DNA interactions, on the prediction of protein-ligand binding sites and on the optimization of the sustainable, enzymatic production of nutraceuticals through rational engineering of proteins.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

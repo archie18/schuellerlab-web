@@ -1,0 +1,45 @@
+{% extends "@LDMMain/baseUser.html.twig" %}
+
+{% block main_header %}
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-12">
+            <h2>
+                <span class="text-navy">Laboratory of Molecular Design</span>
+            </h2>
+            <ol class="breadcrumb">
+                <li class="active">
+                    <a href="{{ path('ldm_home') }}">dr_sasa</a>
+                </li>
+            </ol>
+        </div>
+    </div>
+{% endblock %}
+
+{% block wrapper_class %}article{% endblock %}
+
+{% block main_content %}
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <div class="ibox float-e-margins m-t-xl">
+                <div class="ibox-content text-left p-lg">
+                    <div class="text-center article-title" style="margin-bottom:50px;">
+                        <span class="text-center text-navy">
+                            <h1><i>dr_sasa</i></h1>
+                        </span>
+                    </div>
+                    <img src="{{ asset("bundles/ldmmain/img/dr_sasa_logo.png") }}" width="70%" style="margin-left:15%">
+                    <br/>
+                    <br/>
+                    {{ form_start(form) }}
+                    {{ form_errors(form) }}
+
+                    PDB or Mol2 format
+                    {{ form_row(form.molecule) }}
+                    {{ form_row(form.submit) }}
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
