@@ -14,3 +14,4 @@ parameters:
     mailer_encryption: ~
     mailer_host: ~
     secret: 1124d94d66bc9d5sadas12fd816ef5af03aeedf1e3232321412fasvdv
+    dr_sasa_binary: dr_sasa

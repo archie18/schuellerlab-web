@@ -52,7 +52,8 @@ class DrSASAController extends Controller {
                 // Run dr_sasa
                 $binDir = $this->container->get('kernel')->locateResource('@LDMMainBundle/Resources/bin');
                 $mode = $file = $form['mode']->getData();
-                $commandLine = $binDir . '/dr_sasa -i ' . $moleculePath . ' -m ' . $mode;
+                $drSASABinary = $this->container->getParameter('dr_sasa_binary');
+                $commandLine = $binDir . '/' . $drSASABinary . ' -i ' . $moleculePath . ' -m ' . $mode;
                 $zipName = $this->zipNamePrefix . basename($tmpDir);
                 $process = new Process(implode(' ', array('/bin/bash', $binDir.'/dr_sasa.sh', '"'.$commandLine.'"', $zipName, '&')));
                 $process->setWorkingDirectory($tmpDir);
