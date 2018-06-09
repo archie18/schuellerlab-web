@@ -13,4 +13,4 @@ parameters:
     mailer_host: null
     secret: 1124d94d66bc9d5sadas12fd816ef5af03aeedf1e3232321412fasvdv
     dr_sasa_binary: dr_sasa
-    dr_sasa_binary: dr_sasa_macos_10.13.4
+#    dr_sasa_binary: dr_sasa_macos_10.13.4
