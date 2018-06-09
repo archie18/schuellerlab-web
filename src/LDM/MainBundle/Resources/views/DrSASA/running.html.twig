@@ -42,7 +42,6 @@
                     </div>
                     <script>
                         setInterval(function(){
-                            console.log('lala');
                             var value = parseInt($('.progress-bar').attr('aria-valuenow')) + 1;
                             $('.progress-bar').attr('aria-valuenow', value);
                             $('.progress-bar').width(value + '%');
