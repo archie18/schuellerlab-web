@@ -11,11 +11,19 @@
         {% block stylesheets %}
             <link href="{{ asset('bundles/ldmmain/css/bootstrap.css') }}" rel="stylesheet">
             <link href="{{ asset('bundles/ldmmain/font-awesome/css/font-awesome.css') }}" rel="stylesheet">
+            <!-- Ladda style -->
+            <link href="{{ asset('bundles/ldmmain/css/plugins/ladda/ladda-themeless.min.css') }}" rel="stylesheet">
+
             <link href="{{ asset('bundles/ldmmain/css/animate.css') }}" rel="stylesheet">
             <link href="{{ asset('bundles/ldmmain/css/style.css') }}" rel="stylesheet">
+            <!-- Jasny -->
             <link href="{{ asset('bundles/ldmmain/css/plugins/jasny/jasny-bootstrap.min.css') }}" rel="stylesheet">
+
             <link href="{{ asset('bundles/ldmmain/css/main.css') }}" rel="stylesheet">
         {% endblock %}
+    </head>
+    <body class="{% block bodyclass %}{% endblock %}">
+        {% block main %}{% endblock %}
 
         {% block javascripts %}
             <script src="{{ asset('bundles/ldmmain/js/jquery-2.1.1.js') }}"></script>
@@ -26,12 +34,14 @@
             <script src="{{ asset('bundles/ldmmain/js/plugins/slimscroll/jquery.slimscroll.js') }}"></script>
             <script src="{{ asset('bundles/ldmmain/js/plugins/chartJs/Chart.min.js') }}"></script>
             <script src="{{ asset('bundles/ldmmain/js/inspinia.js') }}"></script>
+            <script src="{{ asset('bundles/ldmmain/js/plugins/pace/pace.min.js') }}"></script>
             <!-- Jasny -->
             <script src="{{ asset('bundles/ldmmain/js/plugins/jasny/jasny-bootstrap.min.js') }}"></script>
             <script src="{{ asset('bundles/ldmmain/js/main.js') }}?{{ 'now'|date('U') }}"></script>
+            <!-- Ladda -->
+            <script src="{{ asset('bundles/ldmmain/js/plugins/ladda/spin.min.js') }}"></script>
+            <script src="{{ asset('bundles/ldmmain/js/plugins/ladda/ladda.min.js') }}"></script>
+            <script src="{{ asset('bundles/ldmmain/js/plugins/ladda/ladda.jquery.min.js') }}"></script>
         {% endblock %}
-    </head>
-    <body class="{% block bodyclass %}{% endblock %}">
-        {% block main %}{% endblock %}
     </body>
 </html>
