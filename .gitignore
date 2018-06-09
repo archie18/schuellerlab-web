@@ -10,4 +10,10 @@
 /vendor/
 /bin/
 /composer.phar
-/src/LDM/MainBundle/Resources/public/data/*
+/web/dr_sasa/*
+*php~
+/web/bundles/
+.*
+!/.gitignore
+!.gitkeep
+!.htaccess*
