@@ -18,4 +18,4 @@ parameters:
 #    dr_sasa.binary: dr_sasa_macos_10.13.4
     dr_sasa.python: /Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7
 #    dr_sasa.python: python
-    dr_sasa.contactplot: contatplot.py
+    dr_sasa.contactplot: contactplot.py
