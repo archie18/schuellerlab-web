@@ -59,6 +59,8 @@ class DrSASAController extends Controller {
                 $contactplot = $this->container->getParameter('dr_sasa.contactplot');
                 $commandLine = $binDir . '/' . $drSASABinary . ' -i ' . $moleculePath . ' -m ' . $mode;
                 $zipName = $this->zipNamePrefix . basename($tmpDir);
+//                var_dump(implode(' ', array($bash, $binDir.'/'.$runScript, '"'.$commandLine.'"', $zipName, $python, $binDir.'/'.$contactplot, '&')));
+//                die;
                 $process = new Process(implode(' ', array($bash, $binDir.'/'.$runScript, '"'.$commandLine.'"', $zipName, $python, $binDir.'/'.$contactplot, '&')));
                 $process->setWorkingDirectory($tmpDir);
                 $process->start(); // Run in background
@@ -133,6 +135,23 @@ class DrSASAController extends Controller {
             $errorOutput .= $file->getContents();
         }
 
+        // Find contact plots
+        $finder = new Finder();
+        $finder->files()->name('*.by_atom.png');
+        $contactPlotFilenames = array();
+        $contactPlotTitles = array();
+        foreach ($finder->in($outDir) as $file) {
+            $contactPlotFilenames[] = $zipName.'/'.$file->getFilename();
+            // Extract map type from filename
+            preg_match('/[^.]+_vs_[^.]+/', $file->getFilename(), $matches);
+            if ($matches and count($matches)) {
+                $contactPlotTitles[] = str_replace('_', ' ', $matches[0]);
+            } else {
+                $contactPlotTitles[] = '';
+            }
+
+        }
+
         return array (
             'token' => $token,
 //            'zipName' => $zipName,
@@ -140,7 +159,8 @@ class DrSASAController extends Controller {
             'commandLine' => $commandLine,
             'output' => $output,
             'errorOutput' => $errorOutput,
-
+            'contactPlotFilenames' => $contactPlotFilenames,
+            'contactPlotTitles' => $contactPlotTitles,
         );
     }
 
