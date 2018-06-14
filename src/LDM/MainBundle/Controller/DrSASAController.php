@@ -52,10 +52,14 @@ class DrSASAController extends Controller {
                 // Run dr_sasa
                 $binDir = $this->container->get('kernel')->locateResource('@LDMMainBundle/Resources/bin');
                 $mode = $file = $form['mode']->getData();
-                $drSASABinary = $this->container->getParameter('dr_sasa_binary');
+                $bash = $this->container->getParameter('dr_sasa.bash');
+                $drSASABinary = $this->container->getParameter('dr_sasa.binary');
+                $runScript = $this->container->getParameter('dr_sasa.run_script');
+                $python = $this->container->getParameter('dr_sasa.python');
+                $contactplot = $this->container->getParameter('dr_sasa.contactplot');
                 $commandLine = $binDir . '/' . $drSASABinary . ' -i ' . $moleculePath . ' -m ' . $mode;
                 $zipName = $this->zipNamePrefix . basename($tmpDir);
-                $process = new Process(implode(' ', array('/bin/bash', $binDir.'/dr_sasa.sh', '"'.$commandLine.'"', $zipName, '&')));
+                $process = new Process(implode(' ', array($bash, $binDir.'/'.$runScript, '"'.$commandLine.'"', $zipName, $python, $binDir.'/'.$contactplot, '&')));
                 $process->setWorkingDirectory($tmpDir);
                 $process->start(); // Run in background
 
