@@ -137,7 +137,7 @@ class DrSASAController extends Controller {
 
         // Find contact plots
         $finder = new Finder();
-        $finder->files()->name('*.by_atom.png');
+        $finder->files()->name('/.+\.by_(atom|res)\.png/');
         $contactPlotFilenames = array();
         $contactPlotTitles = array();
         foreach ($finder->in($outDir) as $file) {
