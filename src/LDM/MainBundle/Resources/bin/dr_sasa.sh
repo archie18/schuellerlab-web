@@ -21,15 +21,18 @@ eval "$1" >out 2>err
 sed -i '' '1s:.*/::' out
 
 # Generate contact maps with contactplot.py
-asa=$(find . -name '*.asa*')
-tsvs=$(find . -name '*.by_atom.tsv' -not -name '*.matrix.*')
+atmasa=$(find . -name '*.atmasa')
+tsvs=$(find . -name '*.tsv' -not -name '*.matrix.*')
 for tsv in $tsvs; do
-    if [[ "$tsv" = *"LIGAND"* ]]; then
+    if [[ "$tsv" = *"LIGAND"*".by_atom."* ]]; then
         mode=ligand-protein
-    else
+    elif [[ "$tsv" = *".by_atom."* ]]; then
+        continue # Skip by_atom plots. They are less useful
         mode=atom
+    elif [[ "$tsv" = *".by_res."* ]]; then
+        mode=residue
     fi
-    "$3" "$4" $mode "$tsv" "$asa" --skip-none-contact
+    "$3" "$4" $mode "$tsv" "$atmasa" --skip-none-contact
 done
 
 # Create zip archive, name provided as 2nd argument
