@@ -145,9 +145,18 @@ class DrSASAController extends Controller {
             // Extract map type from filename
             preg_match('/[^.]+_vs_[^.]+/', $file->getFilename(), $matches);
             if ($matches and count($matches)) {
-                $contactPlotTitles[] = str_replace('_', ' ', $matches[0]);
+                $contactPlotTitles[] = str_replace('_', ' ', $matches[0]).' ';
             } else {
                 $contactPlotTitles[] = '';
+            }
+            if (strpos($file->getFilename(), '.by_atom.') !== false) {
+                if (preg_match('/LIGAND/', $file->getFilename())) {
+                    $contactPlotTitles[count($contactPlotTitles) - 1] .= 'by ATOM/RESIDUE';
+                } else {
+                    $contactPlotTitles[count($contactPlotTitles) - 1] .= 'by ATOM';
+                }
+            } elseif (strpos($file->getFilename(), '.by_res.') !== false) {
+                $contactPlotTitles[count($contactPlotTitles) - 1] .= 'by RESIDUE';
             }
 
         }
