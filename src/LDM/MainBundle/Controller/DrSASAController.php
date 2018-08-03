@@ -137,7 +137,7 @@ class DrSASAController extends Controller {
 
         // Find contact plots
         $finder = new Finder();
-        $finder->files()->name('/.+\.by_(atom|res)\.png/');
+        $finder->files()->name('/.+\.(by_atom|by_res|by_atom_protein_ligand)\.png/');
         $contactPlotFilenames = array();
         $contactPlotTitles = array();
         foreach ($finder->in($outDir) as $file) {
@@ -150,13 +150,15 @@ class DrSASAController extends Controller {
                 $contactPlotTitles[] = '';
             }
             if (strpos($file->getFilename(), '.by_atom.') !== false) {
-                if (preg_match('/LIGAND/', $file->getFilename())) {
-                    $contactPlotTitles[count($contactPlotTitles) - 1] .= 'by ATOM/RESIDUE';
-                } else {
+                #if (preg_match('/LIGAND/', $file->getFilename())) {
+                #    $contactPlotTitles[count($contactPlotTitles) - 1] .= 'by ATOM/RESIDUE';
+                #} else {
                     $contactPlotTitles[count($contactPlotTitles) - 1] .= 'by ATOM';
-                }
+                #}
             } elseif (strpos($file->getFilename(), '.by_res.') !== false) {
                 $contactPlotTitles[count($contactPlotTitles) - 1] .= 'by RESIDUE';
+            } elseif (strpos($file->getFilename(), '.by_atom_protein_ligand.') !== false) {
+                $contactPlotTitles[count($contactPlotTitles) - 1] .= 'by ATOM/RESIDUE';
             }
 
         }
