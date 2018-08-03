@@ -59,8 +59,8 @@ class DrSASAController extends Controller {
                 $contactplot = $this->container->getParameter('dr_sasa.contactplot');
                 $commandLine = $binDir . '/' . $drSASABinary . ' -i ' . $moleculePath . ' -m ' . $mode;
                 $zipName = $this->zipNamePrefix . basename($tmpDir);
-//                var_dump(implode(' ', array($bash, $binDir.'/'.$runScript, '"'.$commandLine.'"', $zipName, $python, $binDir.'/'.$contactplot, '&')));
-//                die;
+                var_dump(implode(' ', array($bash, $binDir.'/'.$runScript, '"'.$commandLine.'"', $zipName, $python, $binDir.'/'.$contactplot, '&')));
+                die;
                 $process = new Process(implode(' ', array($bash, $binDir.'/'.$runScript, '"'.$commandLine.'"', $zipName, $python, $binDir.'/'.$contactplot, '&')));
                 $process->setWorkingDirectory($tmpDir);
                 $process->start(); // Run in background

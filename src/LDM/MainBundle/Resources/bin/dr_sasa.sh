@@ -17,22 +17,22 @@ echo "$n" >command_line
 # Run dr_sasa command passed as 1st argument
 eval "$1" >out 2>err
 
-# First line of output contains the full path of the input structure. We need to strip the path
-sed -i '' '1s:.*/::' out
+# Second line of output contains the full path of the input structure. We need to strip the path
+sed -i '' '2s:.*/::' out
 
 # Generate contact maps with contactplot.py
 atmasa=$(find . -name '*.atmasa')
 tsvs=$(find . -name '*.tsv' -not -name '*.matrix.*')
 for tsv in $tsvs; do
     if [[ "$tsv" = *"LIGAND"*".by_atom."* ]]; then
-        mode=ligand-protein
+        mode=protein-ligand
     elif [[ "$tsv" = *".by_atom."* ]]; then
         continue # Skip by_atom plots. They are less useful
         mode=atom
     elif [[ "$tsv" = *".by_res."* ]]; then
         mode=residue
     fi
-    "$3" "$4" $mode "$tsv" "$atmasa" --skip-none-contact
+    "$3" "$4" $mode "$tsv" "$atmasa" --skip-non-contact >>out 2>>err
 done
 
 # Create zip archive, name provided as 2nd argument
