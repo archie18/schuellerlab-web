@@ -19,7 +19,7 @@ class TargPredType extends AbstractType
                     new NotBlank(),
                     new File(array(
                         'maxSize' => "5M",
-                        'mimeTypes' => array("chemical/x-smi"),
+                        'mimeTypes' => array("chemical/x-smi", "text/plain"),
                     )),
                     new FileExtension(array('allowedExtensions' => array('.smi')))
                 ),
