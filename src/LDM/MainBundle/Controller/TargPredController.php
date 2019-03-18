@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use LDM\MainBundle\Form\TargPredType;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Process\Process;
@@ -36,29 +37,32 @@ class TargPredController extends Controller
                     $tmpDir = tempnam($workDir, '');
                     unlink($tmpDir);
                 } while (!mkdir($tmpDir));
-
+                
                 // Move uploaded file
-                //$file = $form->get('molecule')->getData();
-                $file = $form['molecule']->getData();
-                $ext = $file->getClientOriginalExtension();
-                $moleculeName = $this->moleculeNamePrefix . '.' . $ext;
-                $file->move($tmpDir, $moleculeName);
-                $moleculePath = $tmpDir . '/' . $moleculeName;
+                $fs = new Filesystem();
+                $ejemplo = $form['ejemplo']->getData();
+                $fs->dumpFile($tmpDir . '/ejemplo.smi', $ejemplo);
+                //file_put_contents($tmpDir.'/ejemplo.smi', $ejemplo,FILE_APPEND)
+                //$fileSystem->dumpFile('file.smi', $ejemplo);
+                
+                //$ext = $file->getClientOriginalExtension();
+                //$moleculeName = $this->moleculeNamePrefix . '.' . $ext;
+                //$file->move($tmpDir, $moleculeName);
+                //$moleculePath = $tmpDir . '/' . $moleculeName;
 
                 // Run Targpred's pipeline
                 $binDir = $this->container->get('kernel')->locateResource('@LDMMainBundle/Resources/bin');
                 $bash = $this->container->getParameter('dr_sasa.bash');
                 $newDescfp = $this->container->getParameter('targpred_newDescfp');
                 $tanmat2 = $this->container->getParameter('targpred_tanmat2');
-                $chembl24 = $this->container->getParameter('Chembl24_goldStd3_max.txt.smi.fpt.bin');
-
-                // Run process
-                $process = new Process(implode(' ', array($bash, $newDescfp, '&')));
+                $chembl24 = $this->container->getParameter('targpred_Chembl24');
+                $Chembl_Newdesc = $this->container->getParameter('targpred_Chembl_Newdesc');
+                // Run newDescfp process 
+                $array = array($bash, $binDir.'/'.$newDescfp, '&');
+                $process = new Process(implode(' ', $array));
                 $process->setWorkingDirectory($tmpDir);
                 $process->start(); // Run in background
 
-               
-                
 
                 // executes after the command finishes
                 if (!$process->isSuccessful()) {
@@ -67,13 +71,30 @@ class TargPredController extends Controller
 
                 echo $process->getOutput();
 
-
                 // Sleep for a second, then check whether the job has terminated already, which is likely due to an error
                 sleep(1);
 
+                // Run TargpredQuery process 
+                //./tanmat2 -i Chembl24_goldStd3_max.txt.smi.fpt.bin -j example_molecule.smi.fpt.bin -o ChEMBL24desc_vs_NEWdesc_fp2.tanmat -s " "
+                $array = array($binDir.'/'.$tanmat2.' -i', $binDir.'/'.$chembl24.' -j', $tmpDir.'/ejemplo.smi.fpt.bin -o', $binDir.'/'.$Chembl_Newdesc.' -s " "');
+                $process2 = new Process(implode(' ', $array));
+                $process2->setWorkingDirectory($tmpDir);
+                $process2->start(); // Run in background
+                // executes after the command finishes
+                if (!$process2->isSuccessful()) {
+                    throw new ProcessFailedException($process);
+                }
 
+                echo $process2->getOutput();
+
+
+                // Sleep for a second, then check whether the job has terminated already, which is likely due to an error
+                sleep(1);
+                if (!$process2->isTerminated() or !$process2->getErrorOutput()) {
+                    return $this->redirect($this->generateUrl('ldm_targpred_results', array('token' => basename($tmpDir))));
+                }
                 // An error occurred
-                $this->get('session')->getFlashBag()->add('error-notice', 'Error running TargPred: '.$process->getErrorOutput().'. Please contact the site administrator.');
+                $this->get('session')->getFlashBag()->add('error-notice', 'Error running TargPred: '.$process2->getErrorOutput().'. Please contact the site administrator.');
             }
 
         }
@@ -81,6 +102,28 @@ class TargPredController extends Controller
             'form' => $form->createView()
         );
     }
-    
+    /**
+     * @Route("/results/{token}", name="ldm_targpred_results")
+     * @Template
+     * @param Request $request
+     */
+    public function resultsAction($token) {
+        // Check whether the calculation has finished
+        $fs = new Filesystem();
+        $workDir = $this->get('kernel')->getRootDir() . '/../web/targpred';
+        $tmpDir = $workDir . '/' . $token;
+        if (!$fs->exists($tmpDir . '/ChEMBL24desc_vs_NEWdesc_fp2.tanmat.out')) {
+            return $this->render('@LDMMain/TargPred/running.html.twig', array('token' => $token));
+        }
 
+        // Calculation has finished
+
+
+        // Read command line
+
+        // Read output
+ 
+        // Check there was output
+
+    }
 }

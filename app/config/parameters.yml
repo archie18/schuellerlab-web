@@ -22,4 +22,5 @@ parameters:
     targpred_newDescfp: newDescfp.sh
     targpred_tanmat2: tanmat2
     targpred_Chembl24: Chembl24_goldStd3_max.txt.smi.fpt.bin
+    targpred_Chembl_Newdesc: ChEMBL24desc_vs_NEWdesc_fp2.tanmat
 

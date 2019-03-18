@@ -1,6 +1,6 @@
 <?php
 
-/* @LDMMain/TargPred/index.html.twig */
+/* LDMMainBundle:TargPred:index.html.twig */
 class __TwigTemplate_71d26291d13c3464a1b549cd46b8cadc5d4cc6ba8ae260e0f4bb92d1d975bc7b extends Twig_Template
 {
     public function __construct(Twig_Environment $env)
@@ -8,7 +8,7 @@ class __TwigTemplate_71d26291d13c3464a1b549cd46b8cadc5d4cc6ba8ae260e0f4bb92d1d97
         parent::__construct($env);
 
         // line 1
-        $this->parent = $this->loadTemplate("@LDMMain/baseUser.html.twig", "@LDMMain/TargPred/index.html.twig", 1);
+        $this->parent = $this->loadTemplate("@LDMMain/baseUser.html.twig", "LDMMainBundle:TargPred:index.html.twig", 1);
         $this->blocks = array(
             'main_header' => array($this, 'block_main_header'),
             'wrapper_class' => array($this, 'block_wrapper_class'),
@@ -129,7 +129,7 @@ class __TwigTemplate_71d26291d13c3464a1b549cd46b8cadc5d4cc6ba8ae260e0f4bb92d1d97
 
     public function getTemplateName()
     {
-        return "@LDMMain/TargPred/index.html.twig";
+        return "LDMMainBundle:TargPred:index.html.twig";
     }
 
     public function isTraitable()
@@ -214,6 +214,6 @@ class __TwigTemplate_71d26291d13c3464a1b549cd46b8cadc5d4cc6ba8ae260e0f4bb92d1d97
         });
     </script>
 {% endblock %}
-", "@LDMMain/TargPred/index.html.twig", "/var/www/schuellerlab-web/src/LDM/MainBundle/Resources/views/TargPred/index.html.twig");
+", "LDMMainBundle:TargPred:index.html.twig", "/var/www/schuellerlab-web/src/LDM/MainBundle/Resources/views/TargPred/index.html.twig");
     }
 }

@@ -168,13 +168,21 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
 
         }
 
-        // ldm_targpred
-        if (rtrim($pathinfo, '/') === '/targpred') {
-            if (substr($pathinfo, -1) !== '/') {
-                return $this->redirect($pathinfo.'/', 'ldm_targpred');
+        if (0 === strpos($pathinfo, '/targpred')) {
+            // ldm_targpred
+            if (rtrim($pathinfo, '/') === '/targpred') {
+                if (substr($pathinfo, -1) !== '/') {
+                    return $this->redirect($pathinfo.'/', 'ldm_targpred');
+                }
+
+                return array (  '_controller' => 'LDM\\MainBundle\\Controller\\TargPredController::indexAction',  '_route' => 'ldm_targpred',);
             }
 
-            return array (  '_controller' => 'LDM\\MainBundle\\Controller\\TargPredController::indexAction',  '_route' => 'ldm_targpred',);
+            // ldm_targpred_results
+            if (0 === strpos($pathinfo, '/targpred/results') && preg_match('#^/targpred/results/(?P<token>[^/]++)$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'ldm_targpred_results')), array (  '_controller' => 'LDM\\MainBundle\\Controller\\TargPredController::resultsAction',));
+            }
+
         }
 
         throw 0 < count($allow) ? new MethodNotAllowedException(array_unique($allow)) : new ResourceNotFoundException();

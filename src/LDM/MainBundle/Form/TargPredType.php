@@ -13,18 +13,8 @@ class TargPredType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('molecule', 'file', array(
-                'label' => 'Structure file (.smi) 5 MB',
-                'constraints' => array(
-                    new NotBlank(),
-                    new File(array(
-                        'maxSize' => "5M",
-                        'mimeTypes' => array("chemical/x-smi", "text/plain"),
-                    )),
-                    new FileExtension(array('allowedExtensions' => array('.smi')))
-                ),
-            ))
             
+            ->add('ejemplo', 'text')
             ->add('submit', 'submit')
         ;
     }
