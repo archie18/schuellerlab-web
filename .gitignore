@@ -19,3 +19,4 @@
 !.gitkeep
 !.htaccess*
 src/LDM/MainBundle/Resources/bin/Chembl24_goldStd3_max.txt.smi.fpt.bin
+src/LDM/MainBundle/Resources/bin/Chembl24_goldStd3_max.txt.co
