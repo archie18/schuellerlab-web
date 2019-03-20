@@ -57,32 +57,35 @@ class TargPredController extends Controller
                 $tanmat2 = $this->container->getParameter('targpred_tanmat2');
                 $chembl24 = $this->container->getParameter('targpred_Chembl24');
                 $Chembl_Newdesc = $this->container->getParameter('targpred_Chembl_Newdesc');
+                $test = $this->container->getParameter('targpred_test');
                 // Run newDescfp process 
                 $array = array($bash, $binDir.'/'.$newDescfp, '&');
+                //$array = array($bash, $binDir.'/'.$test, '&');
                 $process = new Process(implode(' ', $array));
                 $process->setWorkingDirectory($tmpDir);
                 $process->start(); // Run in background
 
-
                 // executes after the command finishes
-                if (!$process->isSuccessful()) {
-                    throw new ProcessFailedException($process);
-                }
+                //if (!$process->isSuccessful()) {
+                //    throw new ProcessFailedException($process);
+                //}
 
-                echo $process->getOutput();
+                //echo $process->getOutput();
 
                 // Sleep for a second, then check whether the job has terminated already, which is likely due to an error
                 sleep(1);
 
                 // Run TargpredQuery process 
                 //./tanmat2 -i Chembl24_goldStd3_max.txt.smi.fpt.bin -j example_molecule.smi.fpt.bin -o ChEMBL24desc_vs_NEWdesc_fp2.tanmat -s " "
-                $array = array($binDir.'/'.$tanmat2.' -i', $binDir.'/'.$chembl24.' -j', $tmpDir.'/ejemplo.smi.fpt.bin -o', $binDir.'/'.$Chembl_Newdesc.' -s " "');
+                $array = array($bash, $binDir.'/'.$test, '&');
+                //$array = array($bash, $binDir.'/'.$newDescfp, '&');
+                //$array = array($binDir.'/'.$tanmat2.' -i', $binDir.'/'.$chembl24.' -j', $tmpDir.'/ejemplo.smi.fpt.bin -o', $binDir.'/'.$Chembl_Newdesc.' -s " "');
                 $process2 = new Process(implode(' ', $array));
                 $process2->setWorkingDirectory($tmpDir);
                 $process2->start(); // Run in background
                 // executes after the command finishes
                 if (!$process2->isSuccessful()) {
-                    throw new ProcessFailedException($process);
+                    throw new ProcessFailedException($process2);
                 }
 
                 echo $process2->getOutput();
@@ -90,6 +93,7 @@ class TargPredController extends Controller
 
                 // Sleep for a second, then check whether the job has terminated already, which is likely due to an error
                 sleep(1);
+
                 if (!$process2->isTerminated() or !$process2->getErrorOutput()) {
                     return $this->redirect($this->generateUrl('ldm_targpred_results', array('token' => basename($tmpDir))));
                 }
@@ -112,12 +116,18 @@ class TargPredController extends Controller
         $fs = new Filesystem();
         $workDir = $this->get('kernel')->getRootDir() . '/../web/targpred';
         $tmpDir = $workDir . '/' . $token;
-        if (!$fs->exists($tmpDir . '/ChEMBL24desc_vs_NEWdesc_fp2.tanmat.out')) {
+        if (!$fs->exists($tmpDir . '/DONE')) {
             return $this->render('@LDMMain/TargPred/running.html.twig', array('token' => $token));
         }
 
         // Calculation has finished
+        $zipName = $this->zipNamePrefix . $token;
+        $outDir = $tmpDir . '/' . $zipName;
 
+        // Check zip file exists
+        if (!$fileSystem->exists($tmpDir . '/' . $zipName . '.zip')) {
+            $this->get('session')->getFlashBag()->add('error-notice', 'An error occurred creating the results zip file. Please contact the site administrator.');
+        }
 
         // Read command line
 
@@ -126,4 +136,12 @@ class TargPredController extends Controller
         // Check there was output
 
     }
+    /**
+     * @Route("/download", name="ldm_targpred_download")
+     * @Template
+     */
+    //public function downloadAction() {
+
+      //  return array();
+    //}
 }
