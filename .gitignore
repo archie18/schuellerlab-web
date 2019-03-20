@@ -11,6 +11,7 @@
 /composer.phar
 /src/LDM/MainBundle/Resources/public/data/
 /web/dr_sasa/*
+/web/targpred/*
 *php~
 /web/bundles/
 .*
