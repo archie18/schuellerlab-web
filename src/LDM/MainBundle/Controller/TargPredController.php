@@ -41,8 +41,8 @@ class TargPredController extends Controller
                 
                 // Move uploaded file
                 $fs = new Filesystem();
-                $ejemplo = $form['ejemplo']->getData();
-                $fs->dumpFile($tmpDir . '/ejemplo.smi', $ejemplo);
+                $query = $form['ejemplo']->getData();
+                $fs->dumpFile($tmpDir . '/query.smi', $query);
                 //file_put_contents($tmpDir.'/ejemplo.smi', $ejemplo,FILE_APPEND)
                 //$fileSystem->dumpFile('file.smi', $ejemplo);
                 
@@ -78,28 +78,28 @@ class TargPredController extends Controller
 
                 // Run TargpredQuery process 
                 //./tanmat2 -i Chembl24_goldStd3_max.txt.smi.fpt.bin -j example_molecule.smi.fpt.bin -o ChEMBL24desc_vs_NEWdesc_fp2.tanmat -s " "
-                $array = array($bash, $binDir.'/'.$test, '&');
+//                $array = array($bash, $binDir.'/'.$test, '&');
                 //$array = array($bash, $binDir.'/'.$newDescfp, '&');
                 //$array = array($binDir.'/'.$tanmat2.' -i', $binDir.'/'.$chembl24.' -j', $tmpDir.'/ejemplo.smi.fpt.bin -o', $binDir.'/'.$Chembl_Newdesc.' -s " "');
-                $process2 = new Process(implode(' ', $array));
-                $process2->setWorkingDirectory($tmpDir);
-                $process2->start(); // Run in background
+//                $process2 = new Process(implode(' ', $array));
+//                $process2->setWorkingDirectory($tmpDir);
+//                $process2->start(); // Run in background
                 // executes after the command finishes
 //                if (!$process2->isSuccessful()) {
 //                    throw new ProcessFailedException($process2);
 //                }
 
-                echo $process2->getOutput();
+//                echo $process2->getOutput();
 
 
                 // Sleep for a second, then check whether the job has terminated already, which is likely due to an error
-                sleep(1);
+//                sleep(1);
 
-                if (!$process2->isTerminated() or !$process2->getErrorOutput()) {
+                if (!$process->isTerminated() or !$process->getErrorOutput()) {
                     return $this->redirect($this->generateUrl('ldm_targpred_results', array('token' => basename($tmpDir))));
                 }
                 // An error occurred
-                $this->get('session')->getFlashBag()->add('error-notice', 'Error running TargPred: '.$process2->getErrorOutput().'. Please contact the site administrator.');
+                $this->get('session')->getFlashBag()->add('error-notice', 'Error running TargPred: '.$process->getErrorOutput().'. Please contact the site administrator.');
             }
 
         }
@@ -114,27 +114,47 @@ class TargPredController extends Controller
      */
     public function resultsAction($token) {
         // Check whether the calculation has finished
-        $fs = new Filesystem();
+        $fileSystem = new Filesystem();
         $workDir = $this->get('kernel')->getRootDir() . '/../web/targpred';
         $tmpDir = $workDir . '/' . $token;
-        if (!$fs->exists($tmpDir . '/DONE')) {
+        if (!$fileSystem->exists($tmpDir . '/DONE')) {
             return $this->render('@LDMMain/TargPred/running.html.twig', array('token' => $token));
         }
 
         // Calculation has finished
-        $zipName = $this->zipNamePrefix . $token;
-        $outDir = $tmpDir . '/' . $zipName;
+        $predName = 'predictions.out'; //$this->zipNamePrefix . $token;
+        $outDir = $tmpDir; // . '/' . $zipName;
 
         // Check zip file exists
-        if (!$fileSystem->exists($tmpDir . '/' . $zipName . '.zip')) {
-            $this->get('session')->getFlashBag()->add('error-notice', 'An error occurred creating the results zip file. Please contact the site administrator.');
+        if (!$fileSystem->exists($tmpDir . '/' . $predName )) {
+            $this->get('session')->getFlashBag()->add('error-notice', 'The file with the predictions was not found. Please contact the site administrator.');
         }
 
         // Read command line
 
         // Read output
- 
+        $finder = new Finder();
+        $finder->files()->name( 'predictions.out');
+        $output = '';
+        foreach ($finder->in($outDir) as $file) {
+            $output .= $file->getContents();
+        }
+
         // Check there was output
+        if (!$output) {
+            $this->get('session')->getFlashBag()->add('error-notice', 'Error running dr_sasa. Please check the errors/warnings below and contact the site administrator.');
+        }
+
+        return array (
+            'token' => $token,
+//            'zipName' => $zipName,
+//            'zipFileName' => $zipName . '.zip',
+//            'commandLine' => $commandLine,
+            'output' => $output,
+//            'errorOutput' => $errorOutput,
+//            'contactPlotFilenames' => $contactPlotFilenames,
+//            'contactPlotTitles' => $contactPlotTitles,
+        );
 
     }
     /**

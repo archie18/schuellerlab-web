@@ -1,0 +1,2 @@
+chembl_id	chembl_id	MIN(pp.accession)	MIN(pp.description)	GROUP_CONCAT(DISTINCT do.source_domain_id)	MIN(act.standard_value)	AVG(act.standard_value)	MAX(act.standard_value)	MIN(ms.synonyms)	MIN(canonical_smiles)	MIN(pp.organism)	MAX(md.max_phase)	CorrelativeID
+fake_target	Query											0

@@ -43,36 +43,28 @@
                             <h1><i>dr_sasa</i> - Results</h1>
                         </span>
                     </div>
-                    {% if contactPlotFilenames|length %}
-                    <div class="lightBoxGallery">
-                        {% for plot in contactPlotFilenames %}
-                            <a href="{{ asset('dr_sasa/' ~ token ~ '/' ~ plot) }}" title="Contact map {{ contactPlotTitles[loop.index0] }}" data-gallery=""><img src="{{ asset('dr_sasa/' ~ token ~ '/' ~ plot) }}" width="150 px"></a>
-                        {% endfor %}
-                    </div>
-                    {% endif %}
                     <p>Your results will be kept available for one week.</p>
                     {#Uploaded file: <a href="{{ asset('dr_sasa/' ~ tmpDir ~ '/' ~ moleculeName) }}">{{ moleculeName }}</a>#}
-                    Results: <a href="{{ asset('dr_sasa/' ~ token ~ '/' ~ zipFileName) }}">{{ zipFileName }}</a>
 
-                    <div class="m-t">
-                        <strong>Command line</strong>
-                    </div>
-                    <pre style="font-size: 0.8em">{{ commandLine }}</pre>
+                    {#<div class="m-t">#}
+                        {#<strong>Command line</strong>#}
+                    {#</div>#}
+                    {#<pre style="font-size: 0.8em">{{ commandLine }}</pre>#}
 
                     <div class="m-t">
                         <strong>Output</strong>
                     </div>
                     <pre style="font-size: 0.8em">{{ output }}</pre>
 
-                    <div class="m-t">
-                        <strong>Errors/warnings</strong>
-                    </div>
-                    <pre style="font-size: 0.8em; max-height: 10em;">{{ errorOutput }}</pre>
+                    {#<div class="m-t">#}
+                        {#<strong>Errors/warnings</strong>#}
+                    {#</div>#}
+                    {#<pre style="font-size: 0.8em; max-height: 10em;">{{ errorOutput }}</pre>#}
 
                 </div>
                 <div class="ibox-content text-left p-lg">
                     <h3>How to cite</h3>
-                    <p>{% include 'LDMMainBundle:DrSASA:citation.html.twig' %}<p>
+                    {#<p>{% include 'LDMMainBundle:DrSASA:citation.html.twig' %}<p>#}
                 </div>
 
             </div>
