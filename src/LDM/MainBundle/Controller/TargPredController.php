@@ -10,6 +10,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
 /**
@@ -84,9 +85,9 @@ class TargPredController extends Controller
                 $process2->setWorkingDirectory($tmpDir);
                 $process2->start(); // Run in background
                 // executes after the command finishes
-                if (!$process2->isSuccessful()) {
-                    throw new ProcessFailedException($process2);
-                }
+//                if (!$process2->isSuccessful()) {
+//                    throw new ProcessFailedException($process2);
+//                }
 
                 echo $process2->getOutput();
 
