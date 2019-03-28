@@ -17,14 +17,14 @@
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-12">
             <h2>
-                <span class="text-navy"><i>dr_sasa</i> - Results</span>
+                <span class="text-navy"><i>TargPred</i> - Results</span>
             </h2>
             <ol class="breadcrumb">
                 <li>
-                    <a href="{{ path('ldm_dr_sasa') }}">dr_sasa</a>
+                    <a href="{{ path('ldm_targpred') }}">TargPred</a>
                 </li>
                 <li class="active">
-                    <a href="{{ path('ldm_dr_sasa_results', {'token': token}) }}">Results</a>
+                    <a href="{{ path('ldm_targpred_results', {'token': token}) }}">Results</a>
                 </li>
             </ol>
         </div>
@@ -40,33 +40,17 @@
                 <div class="ibox-content text-left p-lg">
                     <div class="text-center article-title" style="margin-bottom:50px;">
                         <span class="text-center text-navy">
-                            <h1><i>dr_sasa</i> - Results</h1>
+                            <h1><i>TargPred</i> - Results</h1>
                         </span>
                     </div>
+
                     <p>Your results will be kept available for one week.</p>
-                    {#Uploaded file: <a href="{{ asset('dr_sasa/' ~ tmpDir ~ '/' ~ moleculeName) }}">{{ moleculeName }}</a>#}
+                    
+                    Results: <a href="{{ asset('targpred/' ~ token ~ '/' ~ output) }}">{{ output }}</a>
 
-                    {#<div class="m-t">#}
-                        {#<strong>Command line</strong>#}
-                    {#</div>#}
-                    {#<pre style="font-size: 0.8em">{{ commandLine }}</pre>#}
-
-                    <div class="m-t">
-                        <strong>Output</strong>
-                    </div>
-                    <pre style="font-size: 0.8em">{{ output }}</pre>
-
-                    {#<div class="m-t">#}
-                        {#<strong>Errors/warnings</strong>#}
-                    {#</div>#}
-                    {#<pre style="font-size: 0.8em; max-height: 10em;">{{ errorOutput }}</pre>#}
-
+                    
                 </div>
-                <div class="ibox-content text-left p-lg">
-                    <h3>How to cite</h3>
-                    {#<p>{% include 'LDMMainBundle:DrSASA:citation.html.twig' %}<p>#}
-                </div>
-
+                
             </div>
         </div>
     </div>
