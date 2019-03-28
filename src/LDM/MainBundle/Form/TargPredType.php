@@ -14,7 +14,7 @@ class TargPredType extends AbstractType
     {
         $builder
             
-            ->add('ejemplo', 'text')
+            ->add('smiles', 'text')
             ->add('submit', 'submit')
         ;
     }

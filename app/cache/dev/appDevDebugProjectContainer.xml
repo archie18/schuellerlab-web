@@ -45,6 +45,9 @@
     <parameter key="targpred_chembl24">Chembl24_goldStd3_max.txt.smi.fpt.bin</parameter>
     <parameter key="targpred_chembl_newdesc">ChEMBL24desc_vs_NEWdesc_fp2.tanmat</parameter>
     <parameter key="targpred_test">test.sh</parameter>
+    <parameter key="targpred_query">targpredQuery</parameter>
+    <parameter key="targpred_chembl24_co">Chembl24_goldStd3_max.txt.co</parameter>
+    <parameter key="targpred_query_co">query.txt.co</parameter>
     <parameter key="locale">en</parameter>
     <parameter key="controller_resolver.class">Symfony\Bundle\FrameworkBundle\Controller\ControllerResolver</parameter>
     <parameter key="controller_name_converter.class">Symfony\Bundle\FrameworkBundle\Controller\ControllerNameParser</parameter>
@@ -1717,7 +1720,7 @@
       <argument type="collection">
         <argument type="service">
           <service class="Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider" public="false">
-            <argument>5c9277085a62b</argument>
+            <argument>5c952b23c3692</argument>
           </service>
         </argument>
       </argument>
@@ -1838,7 +1841,7 @@
         <argument type="service">
           <service class="Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener" public="false">
             <argument type="service" id="security.context"/>
-            <argument>5c9277085a62b</argument>
+            <argument>5c952b23c3692</argument>
             <argument type="service" id="monolog.logger.security" on-invalid="null"/>
           </service>
         </argument>

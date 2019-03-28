@@ -86,7 +86,7 @@ class __TwigTemplate_94acc0c16c39d7d9367ae1cccec0405200a802a2aa0e7d335b57253cf8a
                             
                             ";
         // line 40
-        echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute(($context["form"] ?? $this->getContext($context, "form")), "ejemplo", array()), 'row');
+        echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute(($context["form"] ?? $this->getContext($context, "form")), "smiles", array()), 'row');
         echo "
                             ";
         // line 41
@@ -192,7 +192,7 @@ class __TwigTemplate_94acc0c16c39d7d9367ae1cccec0405200a802a2aa0e7d335b57253cf8a
                         <div class=\"ibox-content\">
                             {{ form_start(form) }}
                             
-                            {{ form_row(form.ejemplo) }}
+                            {{ form_row(form.smiles) }}
                             {{ form_errors(form) }}
                             {{ form_row(form.submit, { 'attr': {'class': 'ladda-button btn btn-primary', 'style': 'width: 100%;', 'data-style': 'zoom-in' } }) }}
 

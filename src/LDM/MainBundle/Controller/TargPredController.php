@@ -41,15 +41,11 @@ class TargPredController extends Controller
                 
                 // Move uploaded file
                 $fs = new Filesystem();
-                $query = $form['ejemplo']->getData();
+                $query = $form['smiles']->getData();
                 $fs->dumpFile($tmpDir . '/query.smi', $query);
                 //file_put_contents($tmpDir.'/ejemplo.smi', $ejemplo,FILE_APPEND)
                 //$fileSystem->dumpFile('file.smi', $ejemplo);
                 
-                //$ext = $file->getClientOriginalExtension();
-                //$moleculeName = $this->moleculeNamePrefix . '.' . $ext;
-                //$file->move($tmpDir, $moleculeName);
-                //$moleculePath = $tmpDir . '/' . $moleculeName;
 
                 // Run Targpred's pipeline
                 $binDir = $this->container->get('kernel')->locateResource('@LDMMainBundle/Resources/bin');
@@ -59,41 +55,22 @@ class TargPredController extends Controller
                 $chembl24 = $this->container->getParameter('targpred_Chembl24');
                 $Chembl_Newdesc = $this->container->getParameter('targpred_Chembl_Newdesc');
                 $test = $this->container->getParameter('targpred_test');
+                $targetpredquery = $this->container->getParameter('targpred_query');
+                $chembl24_co = $this->container->getParameter('targpred_Chembl24_co');
+                $query_co = $this->container->getParameter('targpred_query_co');
                 // Run newDescfp process 
-                $array = array($bash, $binDir.'/'.$newDescfp, '&');
+                $array = array($bash, $binDir.'/'.$newDescfp, $binDir.'/'.$tanmat2, $binDir.'/'.$chembl24,$binDir.'/'.$targetpredquery, $binDir.'/'.$chembl24_co, $binDir.'/'.$query_co,'&');
                 //$array = array($bash, $binDir.'/'.$test, '&');
                 $process = new Process(implode(' ', $array));
                 $process->setWorkingDirectory($tmpDir);
                 $process->start(); // Run in background
 
-                // executes after the command finishes
-                //if (!$process->isSuccessful()) {
-                //    throw new ProcessFailedException($process);
-                //}
-
-                //echo $process->getOutput();
-
-                // Sleep for a second, then check whether the job has terminated already, which is likely due to an error
+             
                 sleep(1);
 
                 // Run TargpredQuery process 
-                //./tanmat2 -i Chembl24_goldStd3_max.txt.smi.fpt.bin -j example_molecule.smi.fpt.bin -o ChEMBL24desc_vs_NEWdesc_fp2.tanmat -s " "
-//                $array = array($bash, $binDir.'/'.$test, '&');
-                //$array = array($bash, $binDir.'/'.$newDescfp, '&');
-                //$array = array($binDir.'/'.$tanmat2.' -i', $binDir.'/'.$chembl24.' -j', $tmpDir.'/ejemplo.smi.fpt.bin -o', $binDir.'/'.$Chembl_Newdesc.' -s " "');
-//                $process2 = new Process(implode(' ', $array));
-//                $process2->setWorkingDirectory($tmpDir);
-//                $process2->start(); // Run in background
-                // executes after the command finishes
-//                if (!$process2->isSuccessful()) {
-//                    throw new ProcessFailedException($process2);
-//                }
+                //./tanmat2 -i Chembl24_goldStd3_max.txt.smi.fpt.bin -j example_molecule.smi.fpt.bin -o 
 
-//                echo $process2->getOutput();
-
-
-                // Sleep for a second, then check whether the job has terminated already, which is likely due to an error
-//                sleep(1);
 
                 if (!$process->isTerminated() or !$process->getErrorOutput()) {
                     return $this->redirect($this->generateUrl('ldm_targpred_results', array('token' => basename($tmpDir))));
