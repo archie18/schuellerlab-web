@@ -45,10 +45,14 @@
                     </div>
 
                     <p>Your results will be kept available for one week.</p>
-                    
-                    Results: <a href="{{ asset('targpred/' ~ token ~ '/' ~ output) }}">{{ output }}</a>
+                    <strong>Results:</strong> <a href="{{ asset('targpred/' ~ token ~ '/predictions.out') }}">Download results</a>
+              
+              
+                    <div class="m-t">
+                        <strong>Raw results:</strong>
+                    </div>
+                    <pre style="font-size: 0.8em">{{ output }}</pre>
 
-                    
                 </div>
                 
             </div>
