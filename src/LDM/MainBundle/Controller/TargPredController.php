@@ -58,8 +58,9 @@ class TargPredController extends Controller
                 $targetpredquery = $this->container->getParameter('targpred_query');
                 $chembl24_co = $this->container->getParameter('targpred_Chembl24_co');
                 $query_co = $this->container->getParameter('targpred_query_co');
+                $babel = $this->container->getParameter('targpred_babel');
                 // Run newDescfp process 
-                $array = array($bash, $binDir.'/'.$newDescfp, $binDir.'/'.$tanmat2, $binDir.'/'.$chembl24,$binDir.'/'.$targetpredquery, $binDir.'/'.$chembl24_co, $binDir.'/'.$query_co,'&');
+                $array = array($bash, $binDir.'/'.$newDescfp, $binDir.'/'.$tanmat2, $binDir.'/'.$chembl24, $binDir.'/'.$targetpredquery, $binDir.'/'.$chembl24_co, $binDir.'/'.$query_co, $babel, '&');
                 //$array = array($bash, $binDir.'/'.$test, '&');
                 $process = new Process(implode(' ', $array));
                 $process->setWorkingDirectory($tmpDir);
@@ -67,10 +68,6 @@ class TargPredController extends Controller
 
              
                 sleep(1);
-
-                // Run TargpredQuery process 
-                //./tanmat2 -i Chembl24_goldStd3_max.txt.smi.fpt.bin -j example_molecule.smi.fpt.bin -o 
-
 
                 if (!$process->isTerminated() or !$process->getErrorOutput()) {
                     return $this->redirect($this->generateUrl('ldm_targpred_results', array('token' => basename($tmpDir))));

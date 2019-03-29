@@ -27,3 +27,4 @@ parameters:
     targpred_query: targpredQuery
     targpred_Chembl24_co: Chembl24_goldStd3_max.txt.co
     targpred_query_co: query.txt.co
+    targpred_babel: /usr/local/bin/babel

@@ -3,8 +3,7 @@
 
 echo ""
 echo "creating binary FP2 file"
-
-/usr/local/bin/babel query.smi query.smi.fpt -xh 2>babel.err
+$6 query.smi query.smi.fpt -xh 2>babel.err
 
 echo ""
 echo "transforming FP2 hexadeximal to binary" 
@@ -14,11 +13,11 @@ cat query.smi.fpt |grep -v 'Possible superstructure of' |grep -v '>' |paste -d '
 #done
 
 echo "calculating the rectangular similarity matrix"
-$2 -i $3 -j query.smi.fpt.bin -s " " -o matrix.tanmat
+$1 -i $2 -j query.smi.fpt.bin -o matrix.tanmat -s " "
 #/Library/WebServer/Documents/schuellerlab-web/src/LDM/MainBundle/Resources/bin/tanmat2.macos -i /Library/WebServer/Documents/schuellerlab-web/src/LDM/MainBundle/Resources/bin/Chembl24_goldStd3_max.txt.smi.fpt.bin -j query.smi.fpt.bin -s " " -o matrix.tanmat
 
 echo "running target prediction"
-$4 -x -t 4 -m matrix.tanmat -i $5 -j $6 > predictions.out 2>predictons.err 
+$3 -x -t 4 -m matrix.tanmat -i $4 -j $5 > predictions.out 2>predictons.err 
 #/Library/WebServer/Documents/schuellerlab-web/src/LDM/MainBundle/Resources/bin/targpredQuery.macos -x -t 4 -m matrix.tanmat -i /Library/WebServer/Documents/schuellerlab-web/src/LDM/MainBundle/Resources/bin/Chembl24_goldStd3_max.txt.co -j /Library/WebServer/Documents/schuellerlab-web/src/LDM/MainBundle/Resources/bin/query.txt.co > predictions.out 2>predictons.err
 
 touch DONE
