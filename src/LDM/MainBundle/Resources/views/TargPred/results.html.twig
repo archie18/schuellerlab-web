@@ -72,7 +72,7 @@
                                         <td><a href="https://www.ebi.ac.uk/chembl/compound_report_card/{{ result[2] }}/" target="_blank">{{ result[2] }}</a></td>
                                         <td><a href="https://www.ebi.ac.uk/chembl/target_report_card/{{ result[0] }}/" target="_blank">{{ result[0] }}</a></td>
                                         <td>{{ targetLookup[result[0]] }}</td>
-                                        <td>{{ result[1] }}</td>
+                                        <td>{{ result[1]|number_format(4) }}</td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>
