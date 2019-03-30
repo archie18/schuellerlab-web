@@ -119,12 +119,52 @@ class TargPredController extends Controller
             $this->get('session')->getFlashBag()->add('error-notice', 'Error running dr_sasa. Please check the errors/warnings below and contact the site administrator.');
         }
 
+        // Read SMILES
+        $finder = new Finder();
+        $finder->files()->name( 'query.smi');
+        $query = '';
+        foreach ($finder->in($outDir) as $file) {
+            $query .= $file->getContents();
+        }
+
+        // Read interactions file
+        $finder = new Finder();
+        $binDir = $this->container->get('kernel')->locateResource('@LDMMainBundle/Resources/bin');
+        $intFileName = $this->container->getParameter('targpred_Chembl24_co');
+        $finder->files()->name($intFileName);
+        $ints = '';
+        foreach ($finder->in($binDir) as $file) {
+            $ints .= $file->getContents();
+        }
+
+        // Parse ints file
+        $lines = explode("\n", $ints);
+        $targetLookup = array();
+        foreach ($lines as $line) {
+            if ($line) {
+                $parts = explode("\t", $line);
+                $targetLookup[$parts[0]] = $parts[3];
+            }
+        }
+
+        // Parse results
+        $lines = explode("\n", $output);
+        $results = array();
+        foreach ($lines as $line) {
+            if ($line) {
+                $parts = explode("\t", $line);
+                $results[] = array($parts[2], $parts[3], $parts[5]);
+            }
+        }
+
         return array (
             'token' => $token,
 //            'zipName' => $zipName,
 //            'zipFileName' => $zipName . '.zip',
 //            'commandLine' => $commandLine,
-            'output' => $output,
+            'results' => $results,
+            'query' => $query,
+            'targetLookup' => $targetLookup,
 //            'errorOutput' => $errorOutput,
 //            'contactPlotFilenames' => $contactPlotFilenames,
 //            'contactPlotTitles' => $contactPlotTitles,

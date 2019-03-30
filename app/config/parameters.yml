@@ -21,10 +21,12 @@ parameters:
     dr_sasa.contactplot: contactplot.py
     targpred_newDescfp: newDescfp.sh
     targpred_tanmat2: tanmat2
+#    targpred_tanmat2: tanmat2.macos
     targpred_Chembl24: Chembl24_goldStd3_max.txt.smi.fpt.bin
     targpred_Chembl_Newdesc: ChEMBL24desc_vs_NEWdesc_fp2.tanmat
     targpred_test: test.sh
     targpred_query: targpredQuery
+#    targpred_query: targpredQuery.macos
     targpred_Chembl24_co: Chembl24_goldStd3_max.txt.co
     targpred_query_co: query.txt.co
     targpred_babel: /usr/local/bin/babel
