@@ -1,11 +1,12 @@
 #!/bin/bash
 #set -x
 # USAGE
-# sh dr_sasa.sh <dr_sasa_command_line> <zip_name> <python> <contactplot.py>
+# sh dr_sasa.sh <dr_sasa_command_line> <zip_name> <python> <contactplot.py> <matrix_cutter.py>
 # <dr_sasa_command_line> - Complete command line to run dr_sasa
 # <zip_name> - Name of the zip archive without extension
 # <python> - Python 2.7 interpreter to run contactplot.py
 # <contactplot.py> - Python script to generate contact map plots
+# <matrix_cutter.py> - Python script to remove all-zero rows&columns
 
 # Print dr_sasa command passed as 1st argument to file (as info)
 # But first we need to strip all path information, for security reasons
@@ -33,6 +34,11 @@ for tsv in $tsvs; do
         mode=residue
     fi
     "$3" "$4" $mode "$tsv" "$atmasa" --skip-non-contact >>out 2>>err
+done
+
+# Process .tsv files with matrix_cutter.py to remove all-zero rows & columns
+for tsv in $tsvs; do
+    "$3" "$5" "$tsv"
 done
 
 # Create zip archive, name provided as 2nd argument

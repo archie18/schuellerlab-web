@@ -57,11 +57,12 @@ class DrSASAController extends Controller {
                 $runScript = $this->container->getParameter('dr_sasa.run_script');
                 $python = $this->container->getParameter('dr_sasa.python');
                 $contactplot = $this->container->getParameter('dr_sasa.contactplot');
+                $matrixCutter = $this->container->getParameter('dr_sasa.matrix_cutter');
                 $commandLine = $binDir . '/' . $drSASABinary . ' -i ' . $moleculePath . ' -m ' . $mode;
                 $zipName = $this->zipNamePrefix . basename($tmpDir);
 //                var_dump(implode(' ', array($bash, $binDir.'/'.$runScript, '"'.$commandLine.'"', $zipName, $python, $binDir.'/'.$contactplot, '&')));
 //                die;
-                $process = new Process(implode(' ', array($bash, $binDir.'/'.$runScript, '"'.$commandLine.'"', $zipName, $python, $binDir.'/'.$contactplot, '&')));
+                $process = new Process(implode(' ', array($bash, $binDir.'/'.$runScript, '"'.$commandLine.'"', $zipName, $python, $binDir.'/'.$contactplot, $binDir.'/'.$matrixCutter, '&')));
                 $process->setWorkingDirectory($tmpDir);
                 $process->start(); // Run in background
 

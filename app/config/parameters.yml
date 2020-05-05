@@ -15,7 +15,8 @@ parameters:
     dr_sasa.bash: /bin/bash
     dr_sasa.run_script: dr_sasa.sh
     dr_sasa.binary: dr_sasa
-#    dr_sasa.binary: dr_sasa_macos_10.13.4
+#    dr_sasa.binary: dr_sasa_macos_10.15.4
     dr_sasa.python: /Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7
 #    dr_sasa.python: python
     dr_sasa.contactplot: contactplot.py
+    dr_sasa.matrix_cutter: matrix_cutter.py
