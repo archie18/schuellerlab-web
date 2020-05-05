@@ -59,6 +59,27 @@
                             generate attractive 2D surface-based contact plots.
                         </li>
                     </ul>
+                    <h3>Installation instructions from source</h3>
+                    <p>Tested on Ubuntu Linux</p>
+                    <p><pre>
+                        mkdir dr_sasa
+                        cd dr_sasa
+                        git clone https://github.com/nioroso-x3/dr_sasa_n.git
+                        cd dr_sasa_n/
+                        mkdir build
+                        cd build/
+                        cmake ../
+                        make
+                        cd ..
+                        cd ..
+                        pip install git+https://github.com/crosvera/contactplot.git
+                        </pre></p>
+                    <p>Test run</p>
+                    <p><pre>
+                        wget https://files.rcsb.org/view/2W26.pdb
+                        dr_sasa_n/build/dr_sasa -m 1 -i 2W26.pdb
+                        contactplot.py protein-ligand 2W26.LIGAND_vs_PROTEIN.by_atom.tsv 2W26.atmasa --skip-non-contact
+                    </pre></p>
                     <h3>Authors</h3>
                     <p>Judemir Ribeiro, Carlos Ríos-Vera, Francisco Melo, and Andreas Schüller<p>
                     <p>Contact: <a href="mailto:aschueller@bio.puc.cl">aschueller@bio.puc.cl</a></p>
