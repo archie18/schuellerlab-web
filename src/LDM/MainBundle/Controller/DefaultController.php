@@ -5,6 +5,9 @@ namespace LDM\MainBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Response;
+use LDM\MainBundle\Entity\Search;
+use LDM\MainBundle\Form\SearchType;
 
 class DefaultController extends Controller
 {
@@ -106,4 +109,54 @@ class DefaultController extends Controller
             'text' => "Hola mundo"
         );
     }
+
+    /**
+     * @Route("/ipre", name="ldm_ipre")
+     * @Template("@LDMMain/Default/ipre.html.twig")
+     */
+    public function ipreAction()
+    {
+        $search = new Search();
+        $form = $this->createForm(new SearchType(), $search);
+
+        $request = $this->get('request');
+        $form->handleRequest($request);
+
+        if ($request->getMethod() == 'POST')
+        {
+            if ($form->isValid())
+            {
+                $compound = $form->get('compound')->getData();
+                $target = $form->get('target')->getData();
+                $similarity = $form->get('similarity')->getData();
+                $pubmed = $form->get('pubmed')->getData();
+                $pmc = $form->get('pmc')->getData();
+
+                if ($pubmed != 1) {
+                    $pubmed = '0';
+                } else {
+                    $pubmed = '1';
+                }
+
+                if ($pmc != 1) {
+                    $pmc = '0';
+                } else {
+                    $pmc = '1';
+                }
+
+                // python3 main.py -m 'name' -c '"compound."' -t '".$target."' -s ".$similarity." -d '.$pubmed.'";
+                $command = "python3 main.py -m 'name' -c '".$compound."' -t '".$target."' -s ".$similarity." -d ".$pubmed.$pmc;
+
+                $python = shell_exec($command);
+
+                return $this->render('LDMMainBundle:Default:ipre.html.twig', array('form'=>$form->createView(), 'resp'=>$python));   
+            }
+            return $this->render('LDMMainBundle:Default:ipre.html.twig', array('form'=>$form->createView(), 'resp'=>''));    
+        }
+        
+        return $this->render('LDMMainBundle:Default:ipre.html.twig', array('form'=>$form->createView(), 'resp' => ''));
+
+    }
+
+
 }
