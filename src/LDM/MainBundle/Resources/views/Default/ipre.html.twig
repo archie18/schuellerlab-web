@@ -21,70 +21,187 @@
         <div class="ibox-content text-left p-lg">
 
             <div class="container_ipre">
+                <div id="formipre">
                 {{ form_start(form, {attr: {novalidate: 'novalidate'}}) }}
                 {# <form action="/action_page.php"> #}
-                <div class="row">
-                    <div class="col-25">
-                        {{ form_label(form.compound, 'Compound (Name or Smiles)') }}
-                    </div>
-                    <div class="col-75">
-                        {{ form_widget(form.compound) }}
+                <div>
+                    <div class="row">
+                        <div class="col-15">
+                            {{ form_label(form.compound, 'Compound (Name or Smiles)') }}
+                        </div>
+                        <div class="col-30">
+                            {% if ( button == "0" ) %}
+                                {{ form_widget(form.compound) }}
+                            {% else %}
+                                {{ form_widget(form.compound, {'attr': {'readonly': 'readonly'}}) }}
+                            {% endif %}
+                        </div>
+                        <div class="col-10">
+                        </div>
+                        <div class="col-15">
+                        {{ form_label(form.target) }}
+                        </div>
+                        <div class="col-30">
+                            {% if ( button == "0" ) %}
+                                {{ form_widget(form.target) }}
+                            {% else %}
+                                {{ form_widget(form.target, {'attr': {'readonly': 'readonly'}}) }}
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-25">
-                    {{ form_label(form.target) }}
-                    </div>
-                    <div class="col-75">
-                    {{ form_widget(form.target) }}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-25">
+                    <div class="col-15">
                     {{ form_label(form.similarity, 'Similarity (Optional)') }}
                     </div>
-                    <div class="col-75">
-                    {{ form_widget(form.similarity, {'type':'number', 'min':'10', 'max':'100'}) }}
+                    <div class="col-30">
+                        {% if ( button == "0" ) %}
+                            {{ form_widget(form.similarity, {'attr': {'value': 100}}) }}
+                        {% else %}
+                            {{ form_widget(form.similarity, {'attr': {'readonly': 'readonly'}}) }}
+                        {% endif %}
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-25">
+                    <div class="col-10">
+                    </div>
+                    <div class="col-15">
                     {{ form_label(form.pubmed, 'Database') }}
                     </div>
-                    <div class="col-75">
-                    {{ form_widget(form.pubmed) }} {{ form_label(form.pubmed) }}
-                    {{ form_widget(form.pmc) }} {{ form_label(form.pmc, 'Pubmed Central') }}
+                    <div class="col-30">
+                        {% if ( button == "0" ) %}
+                            {{ form_widget(form.pubmed) }} {{ form_label(form.pubmed) }}
+                            {{ form_widget(form.pmc) }} {{ form_label(form.pmc, 'Pubmed Central') }}
+                        {% else %}
+                            {{ form_widget(form.pubmed, {'attr': {'readonly': 'readonly'}}) }} {{ form_label(form.pubmed) }}
+                            {{ form_widget(form.pmc, {'attr': {'readonly': 'readonly'}}) }} {{ form_label(form.pmc, 'Pubmed Central') }}
+                        {% endif %}
                     </div>
                 </div>
-                <br>
-                <div class="row">
-                {{ form_end(form) }}
+                <div class="row" hidden="hidden">
+                    <div class="col-25">
+                    {{ form_label(form.iter, 'iter (Optional)') }}
+                    </div>
+                    <div class="col-75">
+                    {% if ( button != "0" ) %}
+                        {{ form_widget(form.iter) }}
+                    {% else %}
+                        {{ form_widget(form.iter) }}
+                    {% endif %}
+                    </div>
                 </div>
+                <div class="row" hidden="hidden">
+                    <div class="col-25">
+                    {{ form_label(form.id, 'id (Optional)') }}
+                    </div>
+                    <div class="col-75">
+                    {{ form_widget(form.id) }}
+                    </div>
+                </div>
+
+                <br>
+
+                <div class="row">
+                {% if ( button == "0" ) %}
+                    {{form_widget(form.search, { 'label': 'Search', 'attr': {'onclick': 'move()'} }) }}
+                {% else %}
+                    {{form_widget(form.search, { 'label': 'Next', 'attr': {'onclick': 'move()'} }) }}
+                {% endif %}
+                {{ form_end(form) }}
+
+                {% if ( button != "0" ) %}
+                <div id="search_search">
+                <form action={{ path('ldm_ipre') }}>
+                    <button type="submit" style="background-color: red;">Clear</button>
+                </form>
+                </div>
+                {% endif %}
+                </div>
+
+
+                </div>
+                <div id="myProgress1" style="display:none;">
+                    <h1>Running...</h1>
+                    <div class="loader"></div>
+                    <br><br><br><br><br><br><br>
+                </div>
+            {# <button onclick="move()">Click Me</button>  #}
             </div>
 
-            <br>
-
-            {{ resp | raw}}
+            {{ resp | raw }}
 
         </div>
     </div>
+{% if (button != "0")%}
+    <script>
+        document.addEventListener("DOMContentLoaded", function (event) {
+            disableInputFields();
+        });
+
+    function disableInputFields() {
+        document.getElementById('search_compound').readonly = "readonly";
+        document.getElementById('search_target').readonly = "readonly";
+        document.getElementById('search_similarity').readonly = "readonly";
+        document.getElementById('search_pubmed').readonly = "readonly";
+        document.getElementById('search_pmc').readonly = "readonly";
+    }
+    </script>
+{% endif %}
 
 
 <script>
-    function myFunction() {
-        var x = document.getElementById("myDIV");
+function move() {
+  var element = document.getElementById("formipre");
+  element.style.display = "none";
 
-        if (x.style.display === "none") {
-            x.style.display = "block";
-        } else {
-            x.style.display = "none";
-        }
-    }
-
-    document.addEventListener("DOMContentLoaded", function (event) {
-        myFunction();
-    });
+  var x = document.getElementById('myProgress1');
+  if (x.style.display === 'none') {
+    x.style.display = 'block';
+  } else {
+    x.style.display = 'none';
+  }
+}
 </script>
 
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    /* Toggle between adding and removing the "active" class,
+    to highlight the button that controls the panel */
+    this.classList.toggle("active");
+
+    /* Toggle between hiding and showing the active panel */
+    var panel = this.nextElementSibling;
+    if (panel.style.display === "block") {
+      panel.style.display = "none";
+    } else {
+      panel.style.display = "block";
+    }
+  });
+}
+</script>
+
+<script>
+var acc = document.getElementsByClassName("querysearch");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    /* Toggle between adding and removing the "active" class,
+    to highlight the button that controls the panel */
+    this.classList.toggle("active");
+
+    /* Toggle between hiding and showing the active panel */
+    var panel = this.nextElementSibling;
+    if (panel.style.display === "block") {
+      panel.style.display = "none";
+    } else {
+      panel.style.display = "block";
+    }
+  });
+}
+</script>
 
 {% endblock main_content %}
+

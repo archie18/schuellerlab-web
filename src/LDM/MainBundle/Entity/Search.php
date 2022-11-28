@@ -21,10 +21,11 @@ class Search
      * @Assert\NotBlank()
      */
     protected $similarity;
-
+    
     protected $pubmed;
-
     protected $pmc;
+    protected $iter;
+    protected $id;
 
     public function getCompound()
     {
@@ -74,6 +75,26 @@ class Search
     public function setPmc($pmc)
     {
         $this->pmc = $pmc;
+    }
+
+    public function getIter()
+    {
+        return $this->iter;
+    }
+
+    public function setIter($iter)
+    {
+        $this->iter = $iter;
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function setId($id)
+    {
+        $this->id = $id;
     }
 
 }

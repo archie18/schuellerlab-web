@@ -12,3 +12,4 @@
 /composer.phar
 /src/LDM/MainBundle/Resources/public/data/*
 *.txt
+/src/LDM/MainBundle/mr_toto/docs/*.json

@@ -5,6 +5,7 @@ namespace LDM\MainBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\HttpFoundation\Response;
 use LDM\MainBundle\Entity\Search;
 use LDM\MainBundle\Form\SearchType;
@@ -118,6 +119,7 @@ class DefaultController extends Controller
     {
         $search = new Search();
         $form = $this->createForm(new SearchType(), $search);
+        $formCopy = $this->createForm(new SearchType(), $search);
 
         $request = $this->get('request');
         $form->handleRequest($request);
@@ -131,30 +133,41 @@ class DefaultController extends Controller
                 $similarity = $form->get('similarity')->getData();
                 $pubmed = $form->get('pubmed')->getData();
                 $pmc = $form->get('pmc')->getData();
+                $iter = $form->get('iter')->getData();
+                $id = $form->get('id')->getData();
 
-                if ($pubmed != 1) {
-                    $pubmed = '0';
+                if ($iter == ""){
+                    $numberIter = "1";
                 } else {
-                    $pubmed = '1';
+                    $numberIter = $iter;
                 }
 
-                if ($pmc != 1) {
-                    $pmc = '0';
-                } else {
-                    $pmc = '1';
-                }
-
-                // python3 main.py -m 'name' -c '"compound."' -t '".$target."' -s ".$similarity." -d '.$pubmed.'";
-                $command = "python3 main.py -m 'name' -c '".$compound."' -t '".$target."' -s ".$similarity." -d ".$pubmed.$pmc;
-
+                if ($numberIter == "1"){
+                    $command_generate_data = "python3 ../src/LDM/MainBundle/mr_toto/func_threading.py -c '".$compound."' -t '".$target."' -s ".$similarity." -i '".$id."'";
+                    $python_data = shell_exec($command_generate_data);
+                }              
+                
+                $command = "python3 ../src/LDM/MainBundle/mr_toto/main.py -m '".$numberIter."' -c '".$compound."' -t '".$target."' -s ".$similarity." -d '".$pubmed.$pmc."' -i '".$id."'";
                 $python = shell_exec($command);
-
-                return $this->render('LDMMainBundle:Default:ipre.html.twig', array('form'=>$form->createView(), 'resp'=>$python));   
+                
+                $myfile = fopen("../src/LDM/MainBundle/mr_toto/docs/res_".$id.".txt", "r") or die("Unable to open file!");
+                $response = fgets($myfile);
+                fclose($myfile);
+                
+                $formCopy->get('compound')->setData($compound);
+                $formCopy->get('target')->setData($target);
+                $formCopy->get('similarity')->setData($similarity);
+                $formCopy->get('pubmed')->setData($pubmed);
+                $formCopy->get('pmc')->setData($pmc);
+                $formCopy->get('iter')->setData($python);
+                $formCopy->get('id')->setData($id);
+              
+                return $this->render('LDMMainBundle:Default:ipre.html.twig', array('form'=>$formCopy->createView(), 'resp'=>$response, 'button'=>$python));
             }
-            return $this->render('LDMMainBundle:Default:ipre.html.twig', array('form'=>$form->createView(), 'resp'=>''));    
+            return $this->render('LDMMainBundle:Default:ipre.html.twig', array('form'=>$form->createView(), 'resp'=>'', 'button'=>'0'));    
         }
         
-        return $this->render('LDMMainBundle:Default:ipre.html.twig', array('form'=>$form->createView(), 'resp' => ''));
+        return $this->render('LDMMainBundle:Default:ipre.html.twig', array('form'=>$form->createView(), 'resp' => '', 'button'=>'0'));
 
     }
 
