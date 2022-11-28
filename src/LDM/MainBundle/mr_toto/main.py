@@ -33,7 +33,9 @@ def get_info_pmc_text(synonyms, synonyms_target, querysearch, mode, pmc_id, file
                 article_metadata = fetch.article_by_pmcid(identifier)
                 abstract = article_metadata.abstract
                 abstract = abstract.replace("\n", "")
+                abstract = mark_tag_text(abstract, synonyms, synonyms_target)
                 title = article_metadata.title
+                title = mark_tag_text(title, synonyms, synonyms_target)
                 file.write(f'<h2>Id: {identifier} - Title: {title} - <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/{identifier}/">[Link]</a></h2>')
                 file.write(f'Abstract: {abstract}')
                 file.write("<br>")
@@ -123,7 +125,7 @@ def get_info_pubmed_text(synonyms, synonyms_target, querysearch, mode, pubmed_id
                         abstract = ""
 
                     file.write(f'<h2>Id: {identifier} - Title: {title} - <a href="https://pubmed.ncbi.nlm.nih.gov/{identifier}/" target="_blank">[Link]</a></h2>')
-                    file.write(f'<div>Abstract: {abstract}</div>')
+                    file.write(f'<div><b>Abstract:</b> {abstract}</div>')
 
                     medline_keys = list(publication['MedlineCitation'].keys())
                     
@@ -132,7 +134,7 @@ def get_info_pubmed_text(synonyms, synonyms_target, querysearch, mode, pubmed_id
                             text_keywords = ', '.join(publication['MedlineCitation']['KeywordList'][0])
                             text_keywords = mark_tag_text(text_keywords, synonyms, synonyms_target)
                             text_keywords = text_keywords.replace("\n","")
-                            keywords = "<div>Keywords: "+text_keywords+"</div>"
+                            keywords = "<div><b>Keywords:</b> "+text_keywords+"</div>"
                             file.write(keywords)
                     else:
                         None
@@ -142,7 +144,7 @@ def get_info_pubmed_text(synonyms, synonyms_target, querysearch, mode, pubmed_id
                             registry_numbers_text = ', '.join([item['NameOfSubstance'] for item in publication['MedlineCitation']['ChemicalList']])
                             registry_numbers_text = mark_tag_text(registry_numbers_text, synonyms, synonyms_target)
                             registry_numbers_text = registry_numbers_text.replace("\n","")
-                            registry_numbers = "<div>Registry numbers: "+registry_numbers_text+"</div>"
+                            registry_numbers = "<div><b>Registry numbers:</b> "+registry_numbers_text+"</div>"
                             file.write(registry_numbers)
                     else:
                         None
@@ -152,7 +154,7 @@ def get_info_pubmed_text(synonyms, synonyms_target, querysearch, mode, pubmed_id
                             meshterms_text = ', '.join([item['DescriptorName'] for item in publication['MedlineCitation']['MeshHeadingList']])
                             meshterms_text = mark_tag_text(meshterms_text, synonyms, synonyms_target)
                             meshterms_text = meshterms_text.replace("\n","")
-                            meshterms = "<div>Mesh Terms: "+meshterms_text+"</div>"
+                            meshterms = "<div><b>Mesh Terms:</b> "+meshterms_text+"</div>"
                             file.write(meshterms)
                     else:
                         None    
@@ -168,7 +170,7 @@ def get_info_pubmed_text(synonyms, synonyms_target, querysearch, mode, pubmed_id
 def get_id_pmc(querysearch):
     Entrez.email = "dummy@gmail.com"
 
-    handle = Entrez.esearch(db="pmc", retmax=1000, term=querysearch, field=['title', 'abstract'])
+    handle = Entrez.esearch(db="pmc", retmax=1000, term=querysearch)
     # handle = Entrez.esearch(db="pubmed", retmax=1000, term=querysearch)
     record = Entrez.read(handle)
     handle.close()
@@ -193,10 +195,10 @@ def get_id_pubmed(querysearch):
     return pubmed_id
 
 def create_querysearch(synonyms, descendants):
-    l1 = ['("'+item.replace('[','').replace(']','')+'"[Title/Abstract]) OR ("'+item.replace('[','').replace(']','')+'"[MeSH Terms]) OR ("'+item.replace('[','').replace(']','')+'"[EC/RN Number])' for item in synonyms]
+    l1 = ['("'+item.replace('[','').replace(']','')+'"[Title/Abstract]) OR ("'+item.replace('[','').replace(']','')+'"[MeSH Terms]) OR ("'+item.replace('[','').replace(']','')+'"[EC/RN Number])' for item in synonyms if isinstance(item, str)]
     str_synonyms = " OR ".join(l1)
 
-    l2 = ['("'+item.replace('[','').replace(']','')+'"[Title/Abstract]) OR ("'+item.replace('[','').replace(']','')+'"[MeSH Terms]) OR ("'+item.replace('[','').replace(']','')+'"[EC/RN Number])' for item in descendants]
+    l2 = ['("'+item.replace('[','').replace(']','')+'"[Title/Abstract]) OR ("'+item.replace('[','').replace(']','')+'"[MeSH Terms]) OR ("'+item.replace('[','').replace(']','')+'"[EC/RN Number])' for item in descendants if isinstance(item, str)]
     str_descendants = " OR ".join(l2)
 
     querysearch = "(("+str_synonyms+") AND ("+ str_descendants + "))"
@@ -205,10 +207,10 @@ def create_querysearch(synonyms, descendants):
     return querysearch
 
 def create_querysearch_fulltext(synonyms, descendants):
-    l1 = ['("'+item.replace('[','').replace(']','')+'"[article])' for item in synonyms]
+    l1 = ['("'+item.replace('[','').replace(']','')+'"[article])' for item in synonyms if isinstance(item, str)]
     str_synonyms = " OR ".join(l1)
 
-    l2 = ['("'+item.replace('[','').replace(']','')+'"[article])' for item in descendants]
+    l2 = ['("'+item.replace('[','').replace(']','')+'"[article])' for item in descendants if isinstance(item, str)]
     str_descendants = " OR ".join(l2)
 
     querysearch = "(("+str_synonyms+") AND ("+ str_descendants + "))"
@@ -237,7 +239,7 @@ def match(**kwargs):
     list_id_article = []
     synonyms_by_name_compound = data["synonyms_compound"]
     similarity_compound = data["compound_similarity"]
-    synonyms_similarity_compound = data["related_records"]
+    synonyms_similarity_compound = data["synonyms_similar_compound"]
     related_records_compound = data["related_records"]
     synonyms_target = data["synonyms_target"]
 
@@ -287,14 +289,17 @@ def match(**kwargs):
             file.write("<button class='accordion'>Moleculas relacionadas</button>")
             compound_list = related_records_compound
             target_list = list(set(descendants_ncbi_target) | set(synonyms_cell_line))
-
+        
         if len(compound_list) > 0 and len(target_list) > 0:
-
-            querysearch = create_querysearch(compound_list, target_list)
+            if mode <= 6:
+                querysearch = create_querysearch(compound_list, target_list)
+            elif mode > 6 and mode <= 12:
+                querysearch = create_querysearch_fulltext(compound_list, target_list)
+            else:
+                None
 
             file.write('<div><button class="querysearch">Querysearch</button>')
             file.write(f"<div><p>{querysearch}</p></div>")
-
             list_id_article = []
 
             if mode <= 6:
@@ -307,7 +312,7 @@ def match(**kwargs):
             else:
                 file.write('</div>')
         else:
-            file.write('</div>')
+            file.write('<div><div>Sin Resultados</div></div>')
        
         mode += 1
         
@@ -315,13 +320,14 @@ def match(**kwargs):
         if mode <= 6:
             get_info_pubmed_text(compound_list, target_list, querysearch, mode, list_id_article, file)
             mode += 1
+            file.write('</div>')
         else:
             get_info_pmc_text(compound_list, target_list, querysearch, mode, list_id_article, file)
             mode += 1
+            file.write('</div>')
     else:
         file.write("No se encontraron resultados")
 
-    file.write('</div>')
     file.close()
 
     print(mode)
@@ -353,3 +359,5 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     match(mode = args.mode, compound = args.compound, target = args.target, similarity = args.similarity, db = args.db, ident = args.ident)
+
+# python3 ../src/LDM/MainBundle/mr_toto/main.py -m '6' -c 'afimoxifene' -t '$antifungal' -s "100" -d '11' -i '6384fae8584a8'
