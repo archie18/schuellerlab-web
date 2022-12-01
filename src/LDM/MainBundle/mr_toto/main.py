@@ -1,4 +1,3 @@
-from types import NoneType
 from Bio import Entrez
 from pubchempy import Compound, get_compounds
 from chembl_webresource_client.new_client import new_client
@@ -26,6 +25,9 @@ def mark_tag_text(text, list_compound, list_target):
 
 def get_info_pmc_text(synonyms, synonyms_target, querysearch, mode, pmc_id, file):
     if len(pmc_id) >= 1:
+        len_result = len(pmc_id)
+        file.write(f"<h1>Results: {len_result}</h1>")
+
         for identifier in pmc_id:
 
             try:
@@ -302,10 +304,14 @@ def match(**kwargs):
             file.write(f"<div><p>{querysearch}</p></div>")
             list_id_article = []
 
+            # print(mode)
+
             if mode <= 6:
                 list_id_article = get_id_pubmed(querysearch)
+                # print(f'pubmed: {len(list_id_article)}')
             else:
                 list_id_article = get_id_pmc(querysearch)
+                # print(f'pmc: {len(list_id_article)}')
 
             if len(list_id_article) > 0:
                 break
@@ -360,4 +366,4 @@ if __name__ == "__main__":
 
     match(mode = args.mode, compound = args.compound, target = args.target, similarity = args.similarity, db = args.db, ident = args.ident)
 
-# python3 ../src/LDM/MainBundle/mr_toto/main.py -m '6' -c 'afimoxifene' -t '$antifungal' -s "100" -d '11' -i '6384fae8584a8'
+# python3 ../src/LDM/MainBundle/mr_toto/main.py -m '1' -c 'afimoxifene' -t '$antifungal' -s "100" -d '11' -i '6384fae8584a8'

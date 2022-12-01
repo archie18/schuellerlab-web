@@ -1,4 +1,3 @@
-from types import NoneType
 from Bio import Entrez
 from pubchempy import Compound, get_compounds
 from chembl_webresource_client.new_client import new_client
@@ -115,7 +114,7 @@ def find_similar_compound(smiles_compound, num_similarity):
         try:
             similarity = new_client.similarity
             res = similarity.filter(smiles=smiles_compound, similarity=num_similarity).only('pref_name')
-            similar_compound = [item['pref_name'].lower() for item in res if type(item['pref_name']) != NoneType]
+            similar_compound = [item['pref_name'].lower() for item in res if type(item['pref_name']) != type(None)]
             similar_compound = list(set(similar_compound))
         except:
             similar_compound = []
@@ -153,7 +152,7 @@ def get_related_records(cid_number):
         res = res[:res.index("}\n]")+3]
         data = json.loads(res)
 
-        related_records = [item["cmpdname"] for item in data]
+        related_records = [item["cmpdname"] for item in data if isinstance(item["cmpdname"], str)]
     except:
         related_records = []
 
