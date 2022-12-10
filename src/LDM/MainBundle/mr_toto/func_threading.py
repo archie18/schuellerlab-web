@@ -89,8 +89,8 @@ def get_data_compound(name_smiles):
     try:
         ret = get_compounds(name_smiles, 'smiles')
         cid = ret[0].cid
-        name = ret[0].name
-        smiles = name_or_smiles
+        # name = ret[0].name
+        smiles = name_smiles
         name_or_smiles = "smiles"
     except:
         None
@@ -271,6 +271,12 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
+    # name_or_smiles, name, cid, smiles = get_data_compound(args.compound)
+    # print(name_or_smiles)
+    # print(name)
+    # print(cid)
+    # print(smiles)
+
     generate_data_threading(args.compound, args.target, args.similarity, args.ident)
 
-# python3 func_threading.py -c 'afimoxifene' -t 'factor xa' -s 99 -i 'qweqweqwe'
+# python3 src/LDM/MainBundle/mr_toto/func_threading.py -c 'CCC(=C(C1=CC=C(C=C1)O)C2=CC=C(C=C2)OCCN(C)C)C3=CC=CC=C3' -t 'factor xa' -s 99 -i 'qweqweqwe'

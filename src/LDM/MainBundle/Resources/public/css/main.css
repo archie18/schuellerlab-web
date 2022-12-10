@@ -237,3 +237,16 @@ input[type=submit]:hover {
     margin-top: 0;
   }
 }
+
+.margin_accordion {
+  margin-bottom: 5px;
+}
+
+.panel_accordion {
+  padding: 0 18px;
+  display: none;
+  background-color: white;
+  overflow: hidden;
+  border-style: solid;
+  border-color: #eee;
+}

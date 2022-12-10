@@ -7,10 +7,12 @@ import string
 import argparse
 import requests
 import json
-from metapub import PubMedFetcher
 import re
 from datetime import datetime
 import sys
+import xmltodict
+
+
 
 def mark_tag_text(text, list_compound, list_target):
     for item in list_compound:
@@ -25,25 +27,41 @@ def mark_tag_text(text, list_compound, list_target):
 
 def get_info_pmc_text(synonyms, synonyms_target, querysearch, mode, pmc_id, file):
     if len(pmc_id) >= 1:
-        len_result = len(pmc_id)
-        file.write(f"<h1>Results: {len_result}</h1>")
-
+        count = 1
         for identifier in pmc_id:
-
             try:
-                fetch = PubMedFetcher()
-                article_metadata = fetch.article_by_pmcid(identifier)
-                abstract = article_metadata.abstract
-                abstract = abstract.replace("\n", "")
-                abstract = mark_tag_text(abstract, synonyms, synonyms_target)
-                title = article_metadata.title
+                response_fulltext = requests.get(f'https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_json/{identifier}/ascii')
+                response_fulltext_json = response_fulltext.json()
+                article_text = response_fulltext_json["documents"][0]["passages"]
+                fulltext = ""
+                title = article_text[0]["text"]
+                if 'kwd' in article_text[0]["infons"]:
+                    keywords = article_text[0]["infons"]["kwd"]
+                else:
+                    keywords = ""
+                abstract = ""
+                for item in article_text:
+                    if item["infons"]["section_type"] == "ABSTRACT":
+                        abstract += item["text"]
+                    else:
+                        fulltext += item["text"].replace('\n',"").replace("\r\n", "") + " "
+            
                 title = mark_tag_text(title, synonyms, synonyms_target)
-                file.write(f'<h2>Id: {identifier} - Title: {title} - <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/{identifier}/">[Link]</a></h2>')
-                file.write(f'Abstract: {abstract}')
-                file.write("<br>")
-
+                abstract = mark_tag_text(abstract, synonyms, synonyms_target)
+                keywords = mark_tag_text(keywords, synonyms, synonyms_target)
+                fulltext = mark_tag_text(fulltext, synonyms, synonyms_target)
+                file.write(f'<h2>#{count} Id: {identifier} - Title: {title} - <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/{identifier}/"><span class="glyphicon glyphicon-new-window"></span></a></h2>')
+                file.write(f'Abstract: {abstract}<br>')
+                file.write(f'Fulltext: <button class="fulltext">Display Fulltext</button><div style="display:none;"><p>{fulltext}</p></div><br>')
+                file.write(f'Keywords: {keywords}<br>')
             except:
-                file.write(f'<h2>Id: {identifier} - <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/{identifier}/">[Link]</a></h2>')
+                file.write(f'<h2>#{count} Id: {identifier} - Title: No disponible - <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/{identifier}/"><span class="glyphicon glyphicon-new-window"></span></a></h2>')
+                file.write(f'Abstract: No disponible<br>')
+                file.write(f'Fulltext: No disponible<br>')
+                file.write(f'Keywords: No disponible<br>')
+
+            count += 1
+
 
     else:
         file.write("Sin resultados")
@@ -52,13 +70,12 @@ def get_info_pubmed_text(synonyms, synonyms_target, querysearch, mode, pubmed_id
     Entrez.email = "dummy@gmail.com"
     # pubmed_id = ["PMC"+item for item in pubmed_id_list]
 
+    count = 1
     if len(pubmed_id) >= 1:
         # print(pubmed_id)
         pubmed_entry = Entrez.efetch(db="pubmed", id=",".join(pubmed_id), retmode="xml")
         result = Entrez.read(pubmed_entry)
         len_result = len(result["PubmedArticle"]) + len(result["PubmedBookArticle"])
-
-        file.write(f"<h1>Results: {len_result}</h1>")
 
         json_string = json.dumps(result)
         json_file = open(f"publication.json", "w")
@@ -87,7 +104,7 @@ def get_info_pubmed_text(synonyms, synonyms_target, querysearch, mode, pubmed_id
                     else:
                         abstract = ""
 
-                    file.write(f'<h2>Id: {identifier} - Title: {title} - <a href="https://pubmed.ncbi.nlm.nih.gov/{identifier}/" target="_blank">[Link]</a></h2>')
+                    file.write(f'<h2>#{count} Id: {identifier} - Title: {title} - <a href="https://pubmed.ncbi.nlm.nih.gov/{identifier}/" target="_blank"><span class="glyphicon glyphicon-new-window"></span></a></h2>')
                     file.write(f'Abstract: {abstract}')
                     file.write("<br>")
                     
@@ -96,13 +113,16 @@ def get_info_pubmed_text(synonyms, synonyms_target, querysearch, mode, pubmed_id
                         text_keywords = mark_tag_text(text_keywords, synonyms, synonyms_target)
                         keywords = "Keywords: "+text_keywords
                         file.write(keywords)
+                        file.write("<br>")
                     else:
                         None
 
                 except:
-                    file.write(f'Id: {identifier} - Title: No disponible')
+                    file.write(f'<h2>#{count} Id: {identifier} - Title: No disponible - <a href="https://pubmed.ncbi.nlm.nih.gov/{identifier}/" target="_blank"><span class="glyphicon glyphicon-new-window"></span></a></h2>')
                     file.write(f'Abstract: No disponible')
                     file.write("<br>")
+
+                count += 1
 
         if len(result["PubmedArticle"]) > 0:
             for publication in result["PubmedArticle"]:
@@ -126,7 +146,7 @@ def get_info_pubmed_text(synonyms, synonyms_target, querysearch, mode, pubmed_id
                     else:
                         abstract = ""
 
-                    file.write(f'<h2>Id: {identifier} - Title: {title} - <a href="https://pubmed.ncbi.nlm.nih.gov/{identifier}/" target="_blank">[Link]</a></h2>')
+                    file.write(f'<h2>#{count} Id: {identifier} - Title: {title} - <a href="https://pubmed.ncbi.nlm.nih.gov/{identifier}/" target="_blank" ><span class="glyphicon glyphicon-new-window"></span></a></h2>')
                     file.write(f'<div><b>Abstract:</b> {abstract}</div>')
 
                     medline_keys = list(publication['MedlineCitation'].keys())
@@ -159,12 +179,16 @@ def get_info_pubmed_text(synonyms, synonyms_target, querysearch, mode, pubmed_id
                             meshterms = "<div><b>Mesh Terms:</b> "+meshterms_text+"</div>"
                             file.write(meshterms)
                     else:
-                        None    
+                        None
+
+                    file.write("<br>")
                 
                 except:
-                    file.write(f'Id: {identifier} - Title: No disponible')
+                    file.write(f'<h2>#{count} Id: {identifier} - Title: No disponible - <a href="https://pubmed.ncbi.nlm.nih.gov/{identifier}/" target="_blank"><span class="glyphicon glyphicon-new-window"></span></a></h2>')
                     file.write(f'Abstract: No disponible')
                     file.write("<br>")
+
+                count += 1
 
     else:
         file.write("Sin resultados")
@@ -263,32 +287,38 @@ def match(**kwargs):
             file.write("<h1>PMC</h1>")
 
         if mode % 6 == 1: # 1-1
-            file.write("<button class='accordion'>1-1</button>")
+            # file.write("<button class='accordion'>1-1</button>")
+            message = "<div class='margin_accordion'><button class='accordion'>1-1</button>"
             compound_list = [compound]
             target_list = [target]
 
         elif mode % 6 == 2: #sinonimos compuesto, incluir el compuesto?
-            file.write("<button class='accordion'>Sinonimos</button>")
+            # file.write("<button class='accordion'>Sinonimos</button>")
+            message = "<div class='margin_accordion'><button class='accordion'>Sinonimos</button>"
             compound_list = synonyms_by_name_compound
             target_list = [target]
 
         elif mode % 6 == 3: #taxonomia
-            file.write("<button class='accordion'>Taxonomia de blancos</button>")
+            # file.write("<button class='accordion'>Taxonomia de blancos</button>")
+            message = "<div class='margin_accordion'><button class='accordion'>Taxonomia de blancos</button>"
             compound_list = synonyms_by_name_compound
             target_list = descendants_ncbi_target
 
         elif mode % 6 == 4: #similitud
-            file.write("<button class='accordion'>Similitud</button>")
+            # file.write("<button class='accordion'>Similitud</button>")
+            message = "<div class='margin_accordion'><button class='accordion'>Similitud</button>"
             compound_list = similarity_compound
             target_list = list(set(descendants_ncbi_target) | set(synonyms_cell_line))
 
         elif mode % 6 == 5: #sinonimos de moleculas similares
-            file.write("<button class='accordion'>Sinonimos de moleculas similares</button>")
+            # file.write("<button class='accordion'>Sinonimos de moleculas similares</button>")
+            message = "<div class='margin_accordion'><button class='accordion'>Sinonimos de moleculas similares</button>"
             compound_list = synonyms_similarity_compound
             target_list = list(set(descendants_ncbi_target) | set(synonyms_cell_line))
 
         elif mode % 6 == 0:#sinonimos de moleculas similares
-            file.write("<button class='accordion'>Moleculas relacionadas</button>")
+            # file.write("<button class='accordion'>Moleculas relacionadas</button>")
+            message = "<div class='margin_accordion'><button class='accordion'>Moleculas relacionadas</button>"
             compound_list = related_records_compound
             target_list = list(set(descendants_ncbi_target) | set(synonyms_cell_line))
         
@@ -300,8 +330,6 @@ def match(**kwargs):
             else:
                 None
 
-            file.write('<div><button class="querysearch">Querysearch</button>')
-            file.write(f"<div><p>{querysearch}</p></div>")
             list_id_article = []
 
             # print(mode)
@@ -313,12 +341,18 @@ def match(**kwargs):
                 list_id_article = get_id_pmc(querysearch)
                 # print(f'pmc: {len(list_id_article)}')
 
+            message_final = message.replace("</", f" (Results: {len(list_id_article)})</")
+            file.write(message_final)
+            file.write('<div class="panel_accordion"><button class="querysearch">Search Query</button>')
+            file.write(f"<div style='display:none;'><p>{querysearch}</p></div>")
+
             if len(list_id_article) > 0:
                 break
             else:
-                file.write('</div>')
+                file.write('</div></div>')
         else:
-            file.write('<div><div>Sin Resultados</div></div>')
+            message_final = message.replace("</", f" (Results: 0)</")
+            file.write(message_final+'<div class="panel_accordion"><div>Sin Resultados</div></div></div>')
        
         mode += 1
         
@@ -326,11 +360,11 @@ def match(**kwargs):
         if mode <= 6:
             get_info_pubmed_text(compound_list, target_list, querysearch, mode, list_id_article, file)
             mode += 1
-            file.write('</div>')
+            file.write('</div></div>')
         else:
             get_info_pmc_text(compound_list, target_list, querysearch, mode, list_id_article, file)
             mode += 1
-            file.write('</div>')
+            file.write('</div></div>')
     else:
         file.write("No se encontraron resultados")
 
