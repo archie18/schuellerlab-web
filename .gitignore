@@ -1,7 +1,6 @@
 /web/bundles/
 /app/bootstrap.php.cache
 /app/cache/*
-/app/config/parameters.yml
 /app/logs/*
 !app/cache/.gitkeep
 !app/logs/.gitkeep
@@ -10,4 +9,11 @@
 /vendor/
 /bin/
 /composer.phar
-/src/LDM/MainBundle/Resources/public/data/*
+/src/LDM/MainBundle/Resources/public/data/
+/web/dr_sasa/*
+*php~
+/web/bundles/
+.*
+!/.gitignore
+!.gitkeep
+!.htaccess*

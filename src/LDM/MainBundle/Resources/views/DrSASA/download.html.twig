@@ -1,0 +1,101 @@
+{% extends "@LDMMain/baseUser.html.twig" %}
+
+{% block main_header %}
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-12">
+            <h2>
+                <span class="text-navy"><i>dr_sasa</i> - Download</span>
+            </h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="{{ path('ldm_dr_sasa') }}">dr_sasa</a>
+                </li>
+                <li class="active">
+                    <a href="{{ path('ldm_dr_sasa_download') }}">Download</a>
+                </li>
+            </ol>
+        </div>
+    </div>
+{% endblock %}
+
+{% block wrapper_class %}article{% endblock %}
+
+{% block main_content %}
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <div class="ibox float-e-margins m-t-xl">
+                <div class="ibox-content text-left p-lg">
+                    <div class="text-center article-title" style="margin-bottom:50px;">
+                        <span class="text-center text-navy">
+                            <h1><i>dr_sasa</i> - Download</h1>
+                            <h5>Solvent Accessible Surface Area calculation software for biological molecules</h5>
+                        </span>
+                    </div>
+                    <h3>Introduction</h3>
+                    <p>
+                        <i>dr-sasa</i> is a solvent accessible surface area (SASA) calculation software for biological
+                        molecules, which supports proteins, nucleic acids and small organic molecules as inputs. The
+                        input files can be provided in either the PDB or Mol2 format. PDB format files will use a
+                        NACCESS compatible vdW radii lookup table, while Mol2 formats will use the same VdW radii
+                        used in Chimera.
+                    </p>
+                    <h3>Operation modes</h3>
+                    <p>
+                        There are five operation modes. The first does common SASA calculations, the second calculates
+                        the buried surface area (BSA) between various chains or molecular objects, and third and fourth
+                        calculate BSA between residues and atoms as if they were independent objects. The fifth mode
+                        calculates BSA without requiring that the atoms are solvent accessible. This mode simply
+                        calculates the raw contact surface areas (CSA) between chains or molecular objects.
+                    </p>
+                    <h3>Downloads</h3>
+                    <ul>
+                        <li><a href="https://github.com/nioroso-x3/dr_sasa_n/releases" target="_blank">https://github.com/nioroso-x3/dr_sasa_n/releases</a>
+                            - Binary releases for Linux, MacOS and Windows, as well as the source code, are freely available
+                            from the GitHub repository</li>
+                        <li><a href="https://github.com/nioroso-x3/dr_sasa_n/blob/master/README.md" target="_blank">https://github.com/nioroso-x3/dr_sasa_n/blob/master/README.md</a> - Usage instructions</li>
+                        <li><a href="https://github.com/nioroso-x3/dr_sasa_n/blob/master/INSTALL" target="_blank">https://github.com/nioroso-x3/dr_sasa_n/blob/master/INSTALL</a> - Installation instructions</li>
+                        <li><a href="https://github.com/crosvera/contactplot" target="_blank">https://github.com/crosvera/contactplot</a>
+                            - Python source code and installation instructions of the <i>contactplot.py</i> script to
+                            generate attractive 2D surface-based contact plots.
+                        </li>
+                    </ul>
+                    <h3>Installation instructions from source</h3>
+                    <p>Tested on Ubuntu Linux</p>
+                    <p>
+<pre>
+mkdir dr_sasa
+cd dr_sasa
+git clone https://github.com/nioroso-x3/dr_sasa_n.git
+cd dr_sasa_n/
+mkdir build
+cd build/
+cmake ../
+make
+cd ..
+cd ..
+pip install git+https://github.com/crosvera/contactplot.git
+</pre>
+                    </p>
+                    <p>Test run</p>
+                    <p>
+<pre>
+wget https://files.rcsb.org/view/2W26.pdb
+dr_sasa_n/build/dr_sasa -m 1 -i 2W26.pdb
+contactplot.py protein-ligand 2W26.LIGAND_vs_PROTEIN.by_atom.tsv 2W26.atmasa --skip-non-contact
+</pre>
+                    </p>
+                    <h3>Authors</h3>
+                    <p>Judemir Ribeiro, Carlos Ríos-Vera, Francisco Melo, and Andreas Schüller<p>
+                    <p>Contact: <a href="mailto:aschueller@bio.puc.cl">aschueller@bio.puc.cl</a></p>
+                    <p>
+                        Licensed under the terms of the MIT license. Copyright (c) 2018 Judemir Ribeiro, Carlos Ríos-Vera,
+                        Francisco Melo, and Andreas Schüller
+                    </p>
+                    <h3>How to cite</h3>
+                    <p>{% include 'LDMMainBundle:DrSASA:citation.html.twig' %}<p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
