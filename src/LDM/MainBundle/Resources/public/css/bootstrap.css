@@ -6467,7 +6467,11 @@ button.close {
 .container-fluid:before,
 .container-fluid:after,
 .row:before,
-.row:after,
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
 .form-horizontal .form-group:before,
 .form-horizontal .form-group:after,
 .btn-toolbar:before,
@@ -6497,7 +6501,11 @@ button.close {
 .dl-horizontal dd:after,
 .container:after,
 .container-fluid:after,
-.row:after,
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
 .form-horizontal .form-group:after,
 .btn-toolbar:after,
 .btn-group-vertical > .btn-group:after,
