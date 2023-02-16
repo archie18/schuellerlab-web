@@ -9,7 +9,6 @@
 /vendor/
 /bin/
 /composer.phar
-/src/LDM/MainBundle/Resources/public/data/
 /web/dr_sasa/*
 *php~
 /web/bundles/
@@ -17,5 +16,6 @@
 !/.gitignore
 !.gitkeep
 !.htaccess*
+/src/LDM/MainBundle/Resources/public/data/*
+/src/LDM/MainBundle/mr_toto/docs/*.txt
 /src/LDM/MainBundle/mr_toto/docs/*.json
-*.txt
