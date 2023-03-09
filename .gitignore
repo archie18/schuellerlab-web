@@ -13,3 +13,4 @@
 /src/LDM/MainBundle/Resources/public/data/*
 /src/LDM/MainBundle/mr_toto/docs/*.txt
 /src/LDM/MainBundle/mr_toto/docs/*.json
+web/taxdump.tar.gz

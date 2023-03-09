@@ -10,7 +10,7 @@ import json
 import re
 from datetime import datetime
 import sys
-import xmltodict
+import time
 
 
 
@@ -369,6 +369,7 @@ def match(**kwargs):
         file.write("No se encontraron resultados")
 
     file.close()
+    time.sleep(10)
 
     print(mode)
 
